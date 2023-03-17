@@ -47,6 +47,7 @@ struct ContentView: View {
         .onAppear(){
             Task {
                 let devWebServiceURL = try? await CityWeatherNetworker().fetchWeather(city: "Paris")
+                print(devWebServiceURL!.city.name)
             }
         }
     }

@@ -15,7 +15,7 @@ protocol WebServiceProtocol {
 }
 
 final class WebService: WebServiceProtocol {
-    //TODO: Stocker la clé dans un fichier 
+    #warning("Stocker la clé dans un fichier")
     private let apiKey: String = "d6b82408b8331dccc474e7d73b1dab70"
     
     private let rootUrl: String

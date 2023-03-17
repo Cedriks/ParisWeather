@@ -25,9 +25,11 @@ final class CityWeatherNetworker: CityWeatherNetworking {
         guard let url: URL = try? webService.makeURL(city: city) else {
             throw WebServiceError.invalidURL
         }
-        
+#warning("Delete Print")
+        print(url)
         do {
             let (data, response) = try await urlSession.data(from: url)
+         
             if let httpResponse = response as? HTTPURLResponse {
 #warning("Delete Print")
                 print("statusCode: \(httpResponse.statusCode)")
@@ -35,20 +37,33 @@ final class CityWeatherNetworker: CityWeatherNetworking {
                     throw WebServiceError.responseStatus
                 }
             }
-            
-            return try CityWeatherNetworker.parseCityWeather(from: data)!
+            let weather = try CityWeatherNetworker.parseCityWeather(from: data)!
+            return weather
         } catch {
             throw error
         }
     }
     
     static func parseCityWeather(from data: Data) throws -> Weather? {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let cityWeatherData = try? decoder.decode(Weather.self, from: data) else {
-            throw WebServiceError.JSONdecodingFailed
-        }
         
+        var cityWeatherData: Weather? = nil
+        let decoder = JSONDecoder()
+        do {
+            cityWeatherData = try decoder.decode(Weather.self, from: data)
+        } catch let DecodingError.dataCorrupted(context) {
+            print(context)
+        } catch let DecodingError.keyNotFound(key, context) {
+            print("Key '\(key)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch let DecodingError.valueNotFound(value, context) {
+            print("Value '\(value)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch let DecodingError.typeMismatch(type, context)  {
+            print("Type '\(type)' mismatch:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch {
+            print("error: ", error)
+        }
         return cityWeatherData
     }
 }
