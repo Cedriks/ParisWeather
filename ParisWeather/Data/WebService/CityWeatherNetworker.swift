@@ -25,27 +25,21 @@ final class CityWeatherNetworker: CityWeatherNetworking {
         guard let url: URL = try? webService.makeURL(city: city) else {
             throw WebServiceError.invalidURL
         }
-#warning("Delete Print")
-        print(url)
         do {
             let (data, response) = try await urlSession.data(from: url)
          
             if let httpResponse = response as? HTTPURLResponse {
-#warning("Delete Print")
-                print("statusCode: \(httpResponse.statusCode)")
                 if (httpResponse.statusCode != 200) {
                     throw WebServiceError.responseStatus
                 }
             }
-            let weather = try CityWeatherNetworker.parseCityWeather(from: data)!
-            return weather
+            return try CityWeatherNetworker.parseCityWeather(from: data)!
         } catch {
             throw error
         }
     }
     
     static func parseCityWeather(from data: Data) throws -> Weather? {
-        
         var cityWeatherData: Weather? = nil
         let decoder = JSONDecoder()
         do {

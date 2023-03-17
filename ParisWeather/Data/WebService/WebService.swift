@@ -7,9 +7,6 @@
 
 import Foundation
 
-
-// https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
-
 protocol WebServiceProtocol {
     func makeURL(city: String) throws -> URL
 }
@@ -22,7 +19,9 @@ final class WebService: WebServiceProtocol {
     private let paramCity: String
     private let paramApiKey: String
     
-    init(rootUrl: String = "https://api.openweathermap.org/data/2.5/", paramCity: String = "forecast?q=", paramApiKey: String = "&appid=") {
+    init(rootUrl: String = "https://api.openweathermap.org/data/2.5/",
+         paramCity: String = "forecast?q=",
+         paramApiKey: String = "&appid=") {
         self.rootUrl = rootUrl
         self.paramCity = paramCity
         self.paramApiKey = paramApiKey
