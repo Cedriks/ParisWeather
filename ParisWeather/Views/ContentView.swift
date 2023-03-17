@@ -9,6 +9,8 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+   
+    
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -41,6 +43,11 @@ struct ContentView: View {
                 }
             }
             Text("Select an item")
+        }
+        .onAppear(){
+            Task {
+                let devWebServiceURL = try? await CityWeatherNetworker().fetchWeather(city: "Paris")
+            }
         }
     }
 
