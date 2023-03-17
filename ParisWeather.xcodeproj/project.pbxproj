@@ -100,11 +100,10 @@
 			isa = PBXGroup;
 			children = (
 				9224FAE929C4945C0064123E /* ParisWeatherApp.swift */,
-				9224FAEB29C4945C0064123E /* Persistence.swift */,
-				9224FAF029C4945C0064123E /* ContentView.swift */,
-				9224FAF229C494620064123E /* Assets.xcassets */,
+				9280E44D29C497C600F1B125 /* Views */,
+				9280E44E29C497D700F1B125 /* Data */,
+				9280E44F29C497E000F1B125 /* Extensions */,
 				9224FAF429C494620064123E /* ParisWeather.entitlements */,
-				9224FAED29C4945C0064123E /* ParisWeather.xcdatamodeld */,
 				9224FAF529C494620064123E /* Preview Content */,
 			);
 			path = ParisWeather;
@@ -133,6 +132,55 @@
 				9224FB0C29C494620064123E /* ParisWeatherUITestsLaunchTests.swift */,
 			);
 			path = ParisWeatherUITests;
+			sourceTree = "<group>";
+		};
+		9280E44D29C497C600F1B125 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9224FAF029C4945C0064123E /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9280E44E29C497D700F1B125 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9280E45229C4986B00F1B125 /* Ressources */,
+				9280E45129C4980400F1B125 /* WebService */,
+				9280E45029C497F800F1B125 /* Models */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9280E44F29C497E000F1B125 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9280E45029C497F800F1B125 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9280E45129C4980400F1B125 /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WebService;
+			sourceTree = "<group>";
+		};
+		9280E45229C4986B00F1B125 /* Ressources */ = {
+			isa = PBXGroup;
+			children = (
+				9224FAF229C494620064123E /* Assets.xcassets */,
+				9224FAEB29C4945C0064123E /* Persistence.swift */,
+				9224FAED29C4945C0064123E /* ParisWeather.xcdatamodeld */,
+			);
+			path = Ressources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
