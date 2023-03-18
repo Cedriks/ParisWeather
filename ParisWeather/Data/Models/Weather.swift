@@ -16,7 +16,7 @@ struct Weather: Codable {
     }
 }
 
-struct WeatherData: Codable {
+struct WeatherData: Codable, Hashable {
     let dt: Int
     let main: WeatherMainData
     let weather: [WeatherDescriptionData]
@@ -28,6 +28,9 @@ struct WeatherData: Codable {
     let sys: WeatherSysData
     let dt_txt: String?
     
+    func tempKelvinToCelcius(_ kelvin: Double) -> Double {
+        kelvin - 273.15
+    }
     
     enum CodingKeys: String, CodingKey {
         case dt,
@@ -43,7 +46,7 @@ struct WeatherData: Codable {
     }
 }
 
-struct WeatherMainData: Codable {
+struct WeatherMainData: Codable, Hashable {
     let temp: Double
     let feels_like: Double?
     let temp_min: Double?
@@ -67,12 +70,11 @@ struct WeatherMainData: Codable {
     }
 }
 
-struct WeatherDescriptionData: Codable {
+struct WeatherDescriptionData: Codable, Hashable {
     let id: Int
     let main: String
     let description: String
     let icon: String
-    
     
     enum CodingKeys: String, CodingKey {
         case id,
@@ -81,16 +83,18 @@ struct WeatherDescriptionData: Codable {
              icon
     }
     
+    
 }
 
-struct WeatherCloudData: Codable {
+struct WeatherCloudData: Codable, Hashable {
     let all: Int
+    
     enum CodingKeys: String, CodingKey {
         case all
     }
 }
 
-struct WeatherWindData: Codable {
+struct WeatherWindData: Codable, Hashable {
     let speed: Double
     let deg: Int
     let gust: Double
@@ -102,7 +106,7 @@ struct WeatherWindData: Codable {
     }
 }
 
-struct WeatherRainData: Codable {
+struct WeatherRainData: Codable, Hashable {
     let h3: Double?
     
     enum CodingKeys: String, CodingKey {
@@ -110,7 +114,7 @@ struct WeatherRainData: Codable {
     }
 }
 
-struct WeatherSysData: Codable {
+struct WeatherSysData: Codable, Hashable {
     let pod: String
     enum CodingKeys: String, CodingKey {
         case pod

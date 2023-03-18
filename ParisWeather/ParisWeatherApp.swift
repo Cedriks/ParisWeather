@@ -10,12 +10,12 @@ import SwiftUI
 @main
 struct ParisWeatherApp: App {
     let persistenceController = PersistenceController.shared
+    let cityName: String = "Paris"
 
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            HomeView(viewModel: HomeView.ViewModel(cityName: cityName))
         }
     }
 }

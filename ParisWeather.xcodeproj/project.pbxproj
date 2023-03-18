@@ -23,6 +23,14 @@
 		9224FB0129C494620064123E /* ParisWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9224FB0029C494620064123E /* ParisWeatherTests.swift */; };
 		9224FB0B29C494620064123E /* ParisWeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9224FB0A29C494620064123E /* ParisWeatherUITests.swift */; };
 		9224FB0D29C494620064123E /* ParisWeatherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9224FB0C29C494620064123E /* ParisWeatherUITestsLaunchTests.swift */; };
+		925C6D7A29C4E3F70034EADA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C6D7929C4E3F70034EADA /* HomeView.swift */; };
+		925C6D7C29C4E4320034EADA /* HomeView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C6D7B29C4E4320034EADA /* HomeView-ViewModel.swift */; };
+		925C6D7E29C4E7A60034EADA /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C6D7D29C4E7A60034EADA /* LoadingState.swift */; };
+		925C6D8129C4EAC30034EADA /* HomeViewLoaded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C6D8029C4EAC30034EADA /* HomeViewLoaded.swift */; };
+		929BBB2929C5D2370051DD1D /* Date+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB2829C5D2370051DD1D /* Date+ext.swift */; };
+		929BBB2B29C5D3BE0051DD1D /* WeatherRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB2A29C5D3BE0051DD1D /* WeatherRowView.swift */; };
+		929BBB2D29C5EFC80051DD1D /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB2C29C5EFC80051DD1D /* LoadingView.swift */; };
+		929BBB2F29C5F0990051DD1D /* FailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB2E29C5F0990051DD1D /* FailedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +68,14 @@
 		9224FB0629C494620064123E /* ParisWeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParisWeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9224FB0A29C494620064123E /* ParisWeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParisWeatherUITests.swift; sourceTree = "<group>"; };
 		9224FB0C29C494620064123E /* ParisWeatherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParisWeatherUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		925C6D7929C4E3F70034EADA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		925C6D7B29C4E4320034EADA /* HomeView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeView-ViewModel.swift"; sourceTree = "<group>"; };
+		925C6D7D29C4E7A60034EADA /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
+		925C6D8029C4EAC30034EADA /* HomeViewLoaded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewLoaded.swift; sourceTree = "<group>"; };
+		929BBB2829C5D2370051DD1D /* Date+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ext.swift"; sourceTree = "<group>"; };
+		929BBB2A29C5D3BE0051DD1D /* WeatherRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRowView.swift; sourceTree = "<group>"; };
+		929BBB2C29C5EFC80051DD1D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		929BBB2E29C5F0990051DD1D /* FailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,10 +161,24 @@
 			path = ParisWeatherUITests;
 			sourceTree = "<group>";
 		};
+		925C6D7F29C4EA730034EADA /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				925C6D7929C4E3F70034EADA /* HomeView.swift */,
+				925C6D7B29C4E4320034EADA /* HomeView-ViewModel.swift */,
+				925C6D8029C4EAC30034EADA /* HomeViewLoaded.swift */,
+				929BBB2A29C5D3BE0051DD1D /* WeatherRowView.swift */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
 		9280E44D29C497C600F1B125 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				9224FAF029C4945C0064123E /* ContentView.swift */,
+				925C6D7F29C4EA730034EADA /* HomeView */,
+				929BBB2C29C5EFC80051DD1D /* LoadingView.swift */,
+				929BBB2E29C5F0990051DD1D /* FailedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,6 +196,7 @@
 		9280E44F29C497E000F1B125 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				929BBB2829C5D2370051DD1D /* Date+ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -174,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				92017AF729C4B58B00445167 /* Weather.swift */,
+				925C6D7D29C4E7A60034EADA /* LoadingState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -328,14 +360,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				925C6D7A29C4E3F70034EADA /* HomeView.swift in Sources */,
+				929BBB2929C5D2370051DD1D /* Date+ext.swift in Sources */,
 				92017AF829C4B58B00445167 /* Weather.swift in Sources */,
 				9224FAEA29C4945C0064123E /* ParisWeatherApp.swift in Sources */,
+				929BBB2B29C5D3BE0051DD1D /* WeatherRowView.swift in Sources */,
 				92017AEB29C49E0500445167 /* WebServiceError.swift in Sources */,
 				92017AEE29C4A57F00445167 /* CityWeatherNetworker.swift in Sources */,
 				9224FAEC29C4945C0064123E /* Persistence.swift in Sources */,
+				929BBB2D29C5EFC80051DD1D /* LoadingView.swift in Sources */,
 				9224FAF129C4945C0064123E /* ContentView.swift in Sources */,
 				92017AE829C49B9500445167 /* WebService.swift in Sources */,
+				929BBB2F29C5F0990051DD1D /* FailedView.swift in Sources */,
+				925C6D8129C4EAC30034EADA /* HomeViewLoaded.swift in Sources */,
+				925C6D7C29C4E4320034EADA /* HomeView-ViewModel.swift in Sources */,
 				9224FAEF29C4945C0064123E /* ParisWeather.xcdatamodeld in Sources */,
+				925C6D7E29C4E7A60034EADA /* LoadingState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
