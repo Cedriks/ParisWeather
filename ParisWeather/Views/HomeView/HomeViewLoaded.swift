@@ -23,7 +23,8 @@ struct HomeViewLoaded: View {
                 AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png"))
             }
             List(list, id: \.self.dt) { weather in
-                WeatherRowView(weatherData: weather)
+//                WeatherRowView(weatherData: weather)
+                WeatherRowView()
             }
             Spacer()
         }

@@ -28,10 +28,6 @@ struct WeatherData: Codable, Hashable {
     let sys: WeatherSysData
     let dt_txt: String?
     
-    func tempKelvinToCelcius(_ kelvin: Double) -> Double {
-        kelvin - 273.15
-    }
-    
     enum CodingKeys: String, CodingKey {
         case dt,
              main,

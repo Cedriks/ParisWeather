@@ -37,8 +37,11 @@ extension HomeView {
         
         func saveData(context: NSManagedObjectContext) {
             weather?.list.forEach({ data in
+                #warning("TODO: saveData")
 //                let entity = 
             })
         }
+        
+        
     }
 }

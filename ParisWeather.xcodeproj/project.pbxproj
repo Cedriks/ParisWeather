@@ -168,6 +168,8 @@
 				925C6D7B29C4E4320034EADA /* HomeView-ViewModel.swift */,
 				925C6D8029C4EAC30034EADA /* HomeViewLoaded.swift */,
 				929BBB2A29C5D3BE0051DD1D /* WeatherRowView.swift */,
+				929BBB2C29C5EFC80051DD1D /* LoadingView.swift */,
+				929BBB2E29C5F0990051DD1D /* FailedView.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -177,8 +179,6 @@
 			children = (
 				9224FAF029C4945C0064123E /* ContentView.swift */,
 				925C6D7F29C4EA730034EADA /* HomeView */,
-				929BBB2C29C5EFC80051DD1D /* LoadingView.swift */,
-				929BBB2E29C5F0990051DD1D /* FailedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

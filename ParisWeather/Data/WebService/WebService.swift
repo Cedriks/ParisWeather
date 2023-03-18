@@ -18,6 +18,7 @@ final class WebService: WebServiceProtocol {
     private let rootUrl: String
     private let paramCity: String
     private let paramApiKey: String
+    private let metric: String = "&units=metric"
     
     init(rootUrl: String = "https://api.openweathermap.org/data/2.5/",
          paramCity: String = "forecast?q=",
@@ -28,7 +29,7 @@ final class WebService: WebServiceProtocol {
     }
     
     func makeURL(city: String) throws -> URL {
-        let urlString = rootUrl + paramCity + city + paramApiKey + apiKey
+        let urlString = rootUrl + paramCity + city + paramApiKey + apiKey + metric
         
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
