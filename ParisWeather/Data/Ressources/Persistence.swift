@@ -193,7 +193,7 @@ struct PersistenceController {
         
         let preview = WeatherDescriptionData(context:context)
         preview.id = Int32(id)
-        preview.main = main
+        preview.mainStr = main
         preview.descriptionStr = descriptionStr
         preview.icon = icon
         
