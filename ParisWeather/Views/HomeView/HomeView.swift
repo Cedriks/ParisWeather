@@ -10,8 +10,6 @@ import SwiftUI
 // MARK: - View
 struct HomeView: View {
     @StateObject var viewModel : ViewModel
-    @Environment(\.managedObjectContext) var context
-    @FetchRequest(entity: Weather.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Weather.city, ascending: true)]) var results :  FetchedResults<Weather>
     
     var body: some View {
         NavigationView {
@@ -19,22 +17,22 @@ struct HomeView: View {
             case .loaded:
                 HomeViewLoaded(weather: viewModel.weather!,
                                fiveDayWeather: viewModel.fiveDayWeather)
-                    .navigationTitle("Weather")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem (placement: .navigationBarTrailing) {
-                            Button {
-                                viewModel.clearWeather()
-                            } label: {
-                                Image(systemName: "arrow.clockwise.circle")
-                            }
+                .navigationTitle("Weather")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem (placement: .navigationBarTrailing) {
+                        Button {
+                            viewModel.clearWeather()
+                        } label: {
+                            Image(systemName: "arrow.clockwise.circle")
                         }
                     }
+                }
             case .loading:
-                LoadingView(results: results, viewModel: viewModel)
-                        .task {
-                            await viewModel.getWeather(context: context)
-                        }
+                LoadingView()
+                    .task {
+                        await viewModel.getWeather()
+                    }
             case .failed:
                 FailedView(isReloadButtonDisplayable: true,
                            loadingState: $viewModel.loadingState)

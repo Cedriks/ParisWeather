@@ -7,36 +7,60 @@
 
 import Foundation
 import CoreData
+import SwiftUI
+
+enum SourceData {
+    case localStorage, webService
+}
 
 extension HomeView {
     @MainActor class ViewModel: ObservableObject {
         @Published private(set) var cityName: String
         @Published var loadingState = LoadingState.loading
         @Published private(set) var weather: WeatherModel? = nil
+        
         private let cityWeatherNetworker: CityWeatherNetworker
         
         @Published var fiveDayWeather : [DayWeather] = []
-     
+        
+        @Published var sourceData: SourceData? = nil
+        
         init(cityName: String, cityWeatherNetworker: CityWeatherNetworker = CityWeatherNetworker()) {
             self.cityName = cityName
             self.cityWeatherNetworker = cityWeatherNetworker
         }
         
-        func getWeather(context: NSManagedObjectContext) async {
+        func getWeather() async {
+            /// - Local Storage
+            do {
+                self.weather = try cityWeatherNetworker.makeWeatherFromStorage()
+                if (self.weather != nil) {
+                    /// - Preparing data for presentation
+                    let fiveDayWeather = makeFiveDaysWeather()
+                    self.fiveDayWeather = makeIOrderedWeatherDataByDay(fiveDaysData: fiveDayWeather)
+                    /// - Update view state
+                    sourceData = .localStorage
+                    loadingState = .loaded
+                }
+            } catch {
+                print(error)
+            }
+            /// - API Request
             do {
                 /// - Request
                 self.weather = try await cityWeatherNetworker.fetchWeather(city: "Paris")
                 /// - Preparing data for presentation
                 let fiveDayWeather = makeFiveDaysWeather()
                 self.fiveDayWeather = makeIOrderedWeatherDataByDay(fiveDaysData: fiveDayWeather)
-                DispatchQueue.main.async {
-                    self.saveData(context: context)
-                }
+
                 /// - Update view state
+                sourceData = .webService
                 loadingState = .loaded
             } catch {
                 print(error)
-                loadingState = .failed
+                if(  sourceData == .webService){
+                    loadingState = .failed
+                }
             }
         }
         
@@ -44,40 +68,6 @@ extension HomeView {
             self.weather = nil
             /// - Update view state
             loadingState = .loading
-        }
-        
-        func saveData(context: NSManagedObjectContext) {
-            let entityWeather = Weather(context: context)
-            /// - WeatherDatas
-            entityWeather.list = []
-            entityWeather.list?.addingObjects(from: weather!.list)
-            
-            /// - CityCoordinateData
-            let cityCoordinateData = CityCoordinateData(context: context)
-            cityCoordinateData.lat = 48.8534
-            cityCoordinateData.lon = 2.3488
-            
-            /// - CityData
-            let entityCity = CityData(context: context)
-            
-            entityCity.id = 2988507
-            entityCity.name = "Paris"
-            entityCity.country = "FR"
-            entityCity.population = 2138551
-            entityCity.timezone = 3600
-            entityCity.sunrise = 1679032848
-            entityCity.sunset = 1679075846
-            entityCity.coord = cityCoordinateData
-            
-            /// - Weather
-            entityWeather.city = entityCity
-        
-            do {
-                try context.save()
-                print("✅ success")
-            } catch {
-                print(error.localizedDescription)
-            }
         }
         
         func makeFiveDaysWeather() -> [WeatherDataModel] {

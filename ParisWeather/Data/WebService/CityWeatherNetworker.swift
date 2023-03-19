@@ -9,39 +9,59 @@ import Foundation
 
 protocol CityWeatherNetworking {
     func fetchWeather(city:String) async throws -> WeatherModel
+    func makeWeatherFromStorage() throws -> WeatherModel?
+    func decodeWeatherModel(from data: Data) throws -> WeatherModel?
+    func encodeWeatherModel(weatherModel: WeatherModel) throws -> String
 }
 
 final class CityWeatherNetworker: CityWeatherNetworking {
     
     private let webService: WebServiceProtocol
     private let urlSession: URLSession
+    private let localFileName: String = "weatherInfos"
     
     init(webService: WebServiceProtocol = WebService(), urlSession: URLSession = .shared) {
         self.webService = webService
         self.urlSession = urlSession
+    }
+
+    
+    func makeWeatherFromStorage() throws -> WeatherModel? {
+        do {
+            /// - Get Data from local storage
+            let localDataWeather : Data =  try JSONSerialization.loadJSON(withFilename: "weatherInfos")!
+            let weatherModel = try decodeWeatherModel(from: localDataWeather)!
+            return weatherModel
+        } catch {
+            print(error.localizedDescription)
+            throw error
+        }
     }
     
     func fetchWeather(city: String) async throws -> WeatherModel {
         guard let url: URL = try? webService.makeURL(city: city) else {
             throw WebServiceError.invalidURL
         }
+        print(url)
         do {
             let (data, response) = try await urlSession.data(from: url)
-         
             if let httpResponse = response as? HTTPURLResponse {
                 if (httpResponse.statusCode != 200) {
+                    print(httpResponse.statusCode)
                     throw WebServiceError.responseStatus
                 }
             }
-            
-            let weatherModel = try CityWeatherNetworker.parseCityWeather(from: data)!
+            let weatherModel = try decodeWeatherModel(from: data)!
+            let endcodeStringWeather = try encodeWeatherModel(weatherModel: weatherModel)
+            try JSONSerialization.saveToFile(jsonString: endcodeStringWeather, toFilename: localFileName)
             return weatherModel
         } catch {
+            print(error.localizedDescription)
             throw error
         }
     }
     
-    static func parseCityWeather(from data: Data) throws -> WeatherModel? {
+    func decodeWeatherModel(from data: Data) throws -> WeatherModel? {
         var cityWeatherData: WeatherModel? = nil
         let decoder = JSONDecoder()
         do {
@@ -61,5 +81,21 @@ final class CityWeatherNetworker: CityWeatherNetworking {
             print("error: ", error)
         }
         return cityWeatherData
+    }
+    
+    func encodeWeatherModel(weatherModel: WeatherModel) throws -> String {
+        let weather: WeatherModel = weatherModel
+        
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .prettyPrinted
+        do {
+            let encodeWeather = try jsonEncoder.encode(weather)
+            let endcodeStringWeather = String(data: encodeWeather, encoding: .utf8)!
+            print(endcodeStringWeather)
+            return endcodeStringWeather
+        } catch {
+            print(error.localizedDescription)
+            throw error
+        }
     }
 }
