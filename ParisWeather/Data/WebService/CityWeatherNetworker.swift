@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CityWeatherNetworking {
-    func fetchWeather(city:String) async throws -> Weather
+    func fetchWeather(city:String) async throws -> WeatherModel
 }
 
 final class CityWeatherNetworker: CityWeatherNetworking {
@@ -21,7 +21,7 @@ final class CityWeatherNetworker: CityWeatherNetworking {
         self.urlSession = urlSession
     }
     
-    func fetchWeather(city: String) async throws -> Weather {
+    func fetchWeather(city: String) async throws -> WeatherModel {
         guard let url: URL = try? webService.makeURL(city: city) else {
             throw WebServiceError.invalidURL
         }
@@ -33,17 +33,19 @@ final class CityWeatherNetworker: CityWeatherNetworking {
                     throw WebServiceError.responseStatus
                 }
             }
-            return try CityWeatherNetworker.parseCityWeather(from: data)!
+            
+            let weatherModel = try CityWeatherNetworker.parseCityWeather(from: data)!
+            return weatherModel
         } catch {
             throw error
         }
     }
     
-    static func parseCityWeather(from data: Data) throws -> Weather? {
-        var cityWeatherData: Weather? = nil
+    static func parseCityWeather(from data: Data) throws -> WeatherModel? {
+        var cityWeatherData: WeatherModel? = nil
         let decoder = JSONDecoder()
         do {
-            cityWeatherData = try decoder.decode(Weather.self, from: data)
+            cityWeatherData = try decoder.decode(WeatherModel.self, from: data)
         } catch let DecodingError.dataCorrupted(context) {
             print(context)
         } catch let DecodingError.keyNotFound(key, context) {

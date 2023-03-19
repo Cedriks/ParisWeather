@@ -7,16 +7,19 @@
 
 import SwiftUI
 
+// MARK: - View
 struct HomeView: View {
     @StateObject var viewModel : ViewModel
+    @Environment(\.managedObjectContext) var context
+    @FetchRequest(entity: Weather.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Weather.city, ascending: true)]) var results :  FetchedResults<Weather>
     
-    // MARK: - View
     var body: some View {
         NavigationView {
             switch viewModel.loadingState {
             case .loaded:
-                HomeViewLoaded(weather: viewModel.weather!)
-                    .navigationTitle("Météo")
+                HomeViewLoaded(weather: viewModel.weather!,
+                               fiveDayWeather: viewModel.fiveDayWeather)
+                    .navigationTitle("Weather")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem (placement: .navigationBarTrailing) {
@@ -28,10 +31,10 @@ struct HomeView: View {
                         }
                     }
             case .loading:
-               LoadingView()
-                    .task {
-                        await viewModel.getWeather()
-                    }
+                LoadingView(results: results, viewModel: viewModel)
+                        .task {
+                            await viewModel.getWeather(context: context)
+                        }
             case .failed:
                 FailedView(isReloadButtonDisplayable: true,
                            loadingState: $viewModel.loadingState)
@@ -39,7 +42,7 @@ struct HomeView: View {
         }
     }
 }
-
+// MARK: - Preview
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(viewModel: HomeView.ViewModel(cityName: "Paris"))

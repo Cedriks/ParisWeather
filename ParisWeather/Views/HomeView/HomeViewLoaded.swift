@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct HomeViewLoaded: View {
-    let weather: Weather
+    let weather: WeatherModel
+    let fiveDayWeather: [DayWeather]
     
     var body: some View {
-        let city: CityData = weather.city
-        let list: [WeatherData] = weather.list
-        let now: WeatherData = weather.list.first!
+        let city: CityDataModel = weather.city
+//        let list: [WeatherData] = weather.list
+        let now: WeatherDataModel = weather.list.first!
         
         VStack {
             VStack {
@@ -22,13 +23,16 @@ struct HomeViewLoaded: View {
                 Text(Date().getHumanReadableDayString())
                 AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png"))
             }
-            List(list, id: \.self.dt) { weather in
-//                WeatherRowView(weatherData: weather)
-                WeatherRowView()
+            List(fiveDayWeather, id: \.self.day) { weather in
+                NavigationLink(
+                    destination: EmptyView()
+                ) {
+                    WeatherRowView(dayWeather: weather)
+                }.accessibilityIdentifier("leagueNavigationLink")
             }
+            .listStyle(.inset)
             Spacer()
         }
-        
     }
 }
 

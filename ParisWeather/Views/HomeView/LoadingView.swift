@@ -8,16 +8,26 @@
 import SwiftUI
 
 struct LoadingView: View {
+    var results: FetchedResults<Weather>
+    var viewModel : HomeView.ViewModel
     var body: some View {
-        VStack {
-            ProgressView()
-            Text("Loading")
+        if (results.isEmpty == true) {
+            VStack {
+                ProgressView()
+                Text("Loading")
+            }
+        } else {
+            VStack {
+                
+            }.task {
+                viewModel.loadingState = .loaded
+            }
         }
     }
 }
 
-struct LoadingView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoadingView()
-    }
-}
+//struct LoadingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LoadingView()
+//    }
+//}

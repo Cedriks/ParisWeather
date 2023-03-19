@@ -1,5 +1,5 @@
 //
-//  Weather.swift
+//  WeatherModel.swift
 //  ParisWeather
 //
 //  Created by Cedrik on 17/03/2023.
@@ -7,25 +7,25 @@
 
 import Foundation
 
-struct Weather: Codable {
-    let list: [WeatherData]
-    let city: CityData
+struct WeatherModel: Codable {
+    let list: [WeatherDataModel]
+    let city: CityDataModel
     
     enum CodingKeys: String, CodingKey {
         case list, city
     }
 }
 
-struct WeatherData: Codable, Hashable {
+struct WeatherDataModel: Codable, Hashable {
     let dt: Int
-    let main: WeatherMainData
-    let weather: [WeatherDescriptionData]
-    let clouds: WeatherCloudData
-    let wind: WeatherWindData
+    let main: WeatherMainDataModel
+    let weather: [WeatherDescriptionDataModel]
+    let clouds: WeatherCloudDataModel
+    let wind: WeatherWindDataModel
     let visibility: Int
     let pop: Double?
-    let rain: WeatherRainData?
-    let sys: WeatherSysData
+    let rain: WeatherRainDataModel?
+    let sys: WeatherSysDataModel
     let dt_txt: String?
     
     enum CodingKeys: String, CodingKey {
@@ -42,7 +42,7 @@ struct WeatherData: Codable, Hashable {
     }
 }
 
-struct WeatherMainData: Codable, Hashable {
+struct WeatherMainDataModel: Codable, Hashable {
     let temp: Double
     let feels_like: Double?
     let temp_min: Double?
@@ -66,7 +66,7 @@ struct WeatherMainData: Codable, Hashable {
     }
 }
 
-struct WeatherDescriptionData: Codable, Hashable {
+struct WeatherDescriptionDataModel: Codable, Hashable {
     let id: Int
     let main: String
     let description: String
@@ -82,7 +82,7 @@ struct WeatherDescriptionData: Codable, Hashable {
     
 }
 
-struct WeatherCloudData: Codable, Hashable {
+struct WeatherCloudDataModel: Codable, Hashable {
     let all: Int
     
     enum CodingKeys: String, CodingKey {
@@ -90,7 +90,7 @@ struct WeatherCloudData: Codable, Hashable {
     }
 }
 
-struct WeatherWindData: Codable, Hashable {
+struct WeatherWindDataModel: Codable, Hashable {
     let speed: Double
     let deg: Int
     let gust: Double
@@ -102,7 +102,7 @@ struct WeatherWindData: Codable, Hashable {
     }
 }
 
-struct WeatherRainData: Codable, Hashable {
+struct WeatherRainDataModel: Codable, Hashable {
     let h3: Double?
     
     enum CodingKeys: String, CodingKey {
@@ -110,17 +110,17 @@ struct WeatherRainData: Codable, Hashable {
     }
 }
 
-struct WeatherSysData: Codable, Hashable {
+struct WeatherSysDataModel: Codable, Hashable {
     let pod: String
     enum CodingKeys: String, CodingKey {
         case pod
     }
 }
 
-struct CityData: Codable {
+struct CityDataModel: Codable {
     let id: Int
     let name: String
-    let coord: CityCoordinateData
+    let coord: CityCoordinateDataModel
     let country: String
     let population: Int
     let timezone: Int
@@ -139,7 +139,7 @@ struct CityData: Codable {
     }
 }
 
-struct CityCoordinateData: Codable {
+struct CityCoordinateDataModel: Codable {
     let lat: Double
     let lon: Double
     

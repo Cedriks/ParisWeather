@@ -8,85 +8,37 @@
 import SwiftUI
 
 struct WeatherRowView: View {
-    //    let weatherData: WeatherData
-    //    var body: some View {
-    //        HStack {
-    //            Text(Date().makeReadableDate(dt: weatherData.dt).toString())
-    //            Text(String(format: "%.0f", weatherData.main.temp) + " C")
-    //        }
-    //    }
+    var dayWeather : DayWeather
     
     var body: some View {
+        let dict = dayWeather.hours
+        let keys = dict.map{$0.key}.sorted(by: <)
+        let humanDay = dayWeather.date.getHumanReadableDayString()
+        let humanMonth = dayWeather.date.getHumanReadableMonthString()
+        
         HStack {
-            Image(systemName: "sun.min")
-                .resizable()
-                .frame(width: 60, height: 60)
-                .padding()
-            VStack(alignment: .leading) {
-                Text("Lundi 12 Mars")
-                    .font(.title3)
-                    .fontWeight(.medium)
-                HStack {
+            Text("\(humanDay) \(dayWeather.day) \(humanMonth)")
+                .fontWeight(.medium)
+            Spacer()
+            HStack(alignment: .top) {
+                ForEach(keys.indices) {index in
                     VStack {
-                        Text("01H")
+                        Text("\(keys[index])")
                             .font(.caption2)
-                        Text("12")
-                            .font(.headline)
-                    }
-                    VStack {
-                        Text("04H")
-                            .font(.caption2)
-                        Text("13")
-                            .font(.headline)
-                    }
-                    VStack {
-                        Text("07H")
-                            .font(.caption2)
-                        Text("14")
-                            .font(.headline)
-                    }
-                    VStack {
-                        Text("10H")
-                            .font(.caption2)
-                        Text("15")
-                            .font(.headline)
-                    }
-                    VStack {
-                        Text("13H")
-                            .font(.caption2)
-                        Text("16")
-                            .font(.headline)
-                    }
-                    VStack {
-                        Text("16H")
-                            .font(.caption2)
-                        Text("14")
-                            .font(.headline)
-                    }
-                    VStack {
-                        Text("19H")
-                            .font(.caption2)
-                        Text("13")
-                            .font(.headline)
-                    }
-                    VStack {
-                        Text("22H")
-                            .font(.caption2)
-                        Text("12")
-                            .font(.headline)
-                    }
+                        Text( String(format: "%.0f",dict[keys[index]]!.main.temp))
+                            .font(.footnote)
+                    }.frame(width: 20)
                 }
             }
-            .padding(.trailing)
-            .frame(height: 60)
         }
+        .frame(height: 60)
     }
 }
 
 
-struct WeatherRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        WeatherRowView()
-            .previewLayout(.sizeThatFits)
-    }
-}
+//struct WeatherRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WeatherRowView()
+//            .previewLayout(.sizeThatFits)
+//    }
+//}

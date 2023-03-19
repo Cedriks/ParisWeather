@@ -12,8 +12,8 @@
 		92017AEC29C49F8100445167 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92017AE729C49B9500445167 /* WebService.swift */; };
 		92017AEE29C4A57F00445167 /* CityWeatherNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92017AED29C4A57F00445167 /* CityWeatherNetworker.swift */; };
 		92017AEF29C4A57F00445167 /* CityWeatherNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92017AED29C4A57F00445167 /* CityWeatherNetworker.swift */; };
-		92017AF829C4B58B00445167 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92017AF729C4B58B00445167 /* Weather.swift */; };
-		92017AF929C4B58B00445167 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92017AF729C4B58B00445167 /* Weather.swift */; };
+		92017AF829C4B58B00445167 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92017AF729C4B58B00445167 /* WeatherModel.swift */; };
+		92017AF929C4B58B00445167 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92017AF729C4B58B00445167 /* WeatherModel.swift */; };
 		9224FAEA29C4945C0064123E /* ParisWeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9224FAE929C4945C0064123E /* ParisWeatherApp.swift */; };
 		9224FAEC29C4945C0064123E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9224FAEB29C4945C0064123E /* Persistence.swift */; };
 		9224FAEF29C4945C0064123E /* ParisWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9224FAED29C4945C0064123E /* ParisWeather.xcdatamodeld */; };
@@ -31,6 +31,7 @@
 		929BBB2B29C5D3BE0051DD1D /* WeatherRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB2A29C5D3BE0051DD1D /* WeatherRowView.swift */; };
 		929BBB2D29C5EFC80051DD1D /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB2C29C5EFC80051DD1D /* LoadingView.swift */; };
 		929BBB2F29C5F0990051DD1D /* FailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB2E29C5F0990051DD1D /* FailedView.swift */; };
+		929BBB3329C610CF0051DD1D /* DayWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929BBB3229C610CF0051DD1D /* DayWeather.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +55,7 @@
 		92017AE729C49B9500445167 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		92017AEA29C49E0500445167 /* WebServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebServiceError.swift; sourceTree = "<group>"; };
 		92017AED29C4A57F00445167 /* CityWeatherNetworker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherNetworker.swift; sourceTree = "<group>"; };
-		92017AF729C4B58B00445167 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		92017AF729C4B58B00445167 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		9224FAE629C4945C0064123E /* ParisWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParisWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9224FAE929C4945C0064123E /* ParisWeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParisWeatherApp.swift; sourceTree = "<group>"; };
 		9224FAEB29C4945C0064123E /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		929BBB2A29C5D3BE0051DD1D /* WeatherRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRowView.swift; sourceTree = "<group>"; };
 		929BBB2C29C5EFC80051DD1D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		929BBB2E29C5F0990051DD1D /* FailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailedView.swift; sourceTree = "<group>"; };
+		929BBB3229C610CF0051DD1D /* DayWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayWeather.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,8 +206,9 @@
 		9280E45029C497F800F1B125 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				92017AF729C4B58B00445167 /* Weather.swift */,
+				92017AF729C4B58B00445167 /* WeatherModel.swift */,
 				925C6D7D29C4E7A60034EADA /* LoadingState.swift */,
+				929BBB3229C610CF0051DD1D /* DayWeather.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -362,7 +365,7 @@
 			files = (
 				925C6D7A29C4E3F70034EADA /* HomeView.swift in Sources */,
 				929BBB2929C5D2370051DD1D /* Date+ext.swift in Sources */,
-				92017AF829C4B58B00445167 /* Weather.swift in Sources */,
+				92017AF829C4B58B00445167 /* WeatherModel.swift in Sources */,
 				9224FAEA29C4945C0064123E /* ParisWeatherApp.swift in Sources */,
 				929BBB2B29C5D3BE0051DD1D /* WeatherRowView.swift in Sources */,
 				92017AEB29C49E0500445167 /* WebServiceError.swift in Sources */,
@@ -371,6 +374,7 @@
 				929BBB2D29C5EFC80051DD1D /* LoadingView.swift in Sources */,
 				9224FAF129C4945C0064123E /* ContentView.swift in Sources */,
 				92017AE829C49B9500445167 /* WebService.swift in Sources */,
+				929BBB3329C610CF0051DD1D /* DayWeather.swift in Sources */,
 				929BBB2F29C5F0990051DD1D /* FailedView.swift in Sources */,
 				925C6D8129C4EAC30034EADA /* HomeViewLoaded.swift in Sources */,
 				925C6D7C29C4E4320034EADA /* HomeView-ViewModel.swift in Sources */,
@@ -383,7 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92017AF929C4B58B00445167 /* Weather.swift in Sources */,
+				92017AF929C4B58B00445167 /* WeatherModel.swift in Sources */,
 				92017AEF29C4A57F00445167 /* CityWeatherNetworker.swift in Sources */,
 				92017AEC29C49F8100445167 /* WebService.swift in Sources */,
 				9224FB0129C494620064123E /* ParisWeatherTests.swift in Sources */,
