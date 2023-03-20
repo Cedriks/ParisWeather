@@ -8,21 +8,16 @@
 import SwiftUI
 
 struct HomeViewLoaded: View {
-    let weather: WeatherModel
-    let fiveDayWeather: [DayWeather]
-    
+    @StateObject var viewModel : HomeLoadedViewModel
     var body: some View {
-        let city: CityDataModel = weather.city
-        let now: WeatherDataModel = weather.list.first!
-        let icon = URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png")
         VStack {
             VStack {
-                Text(city.name)
+                Text(viewModel.cityName())
                     .font(.largeTitle)
                 Text(Date().getHumanReadableDayString())
                     .fontWeight(.medium)
                 AsyncImage(
-                    url: icon,
+                    url: viewModel.icon(),
                     content:{ image in
                         image.resizable()
                             .aspectRatio(contentMode: .fit)
@@ -30,21 +25,24 @@ struct HomeViewLoaded: View {
                             .padding(.top, -20)
                     },
                     placeholder: {
-                     ProgressView()
+                        ProgressView()
                             .frame(maxWidth: 100, maxHeight: 100)
                             .padding(.top, 20)
                     }
                 )
-                Text(now.weather.first!.description)
+                Text(viewModel.weatherDescription())
                     .font(.callout)
                     .padding(.top, -20)
-                Text( String(format: "%.0f",now.main.temp) + " ºC")
+                Text(viewModel.weatherTempString())
             }
-            List(fiveDayWeather, id: \.self.day) { dayWeather in
+            List(viewModel.fiveDayWeather, id: \.self.day) { dayWeather in
                 NavigationLink(
-                    destination: DetailView(viewModel: DetailViewModel(weather: weather, dayWeather: dayWeather, city: weather.city))
+                    destination:
+                        DetailView(viewModel: DetailViewModel(weather: viewModel.weather,
+                                                              dayWeather: dayWeather))
                 ) {
-                    WeatherRowView(dayWeather: dayWeather)
+                    WeatherRowView(viewModel:
+                                    WeatherRowViewModel(dayWeather: dayWeather))
                 }.accessibilityIdentifier("leagueNavigationLink")
             }
             .listStyle(.inset)
@@ -55,11 +53,14 @@ struct HomeViewLoaded: View {
 
 struct HomeViewLoaded_Previews: PreviewProvider {
     static var previews: some View {
-        let weatherM: WeatherModel = WeatherModel.makePreviewData()
-        let weatherDataM : [WeatherDataModel] = weatherM.list
-        let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
-        
-        HomeViewLoaded(weather: weatherM, fiveDayWeather: daysWeather )
+        if let weatherM: WeatherModel = WeatherModel.makePreviewData() {
+            let weatherDataM : [WeatherDataModel] = weatherM.list
+            let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
+            
+            HomeViewLoaded(viewModel: HomeLoadedViewModel(weather: weatherM, fiveDayWeather: daysWeather))
+                .previewLayout(.sizeThatFits)
+        } else {
+            Text("No Preview Data\nLoad HomeView first")
+        }
     }
 }
-

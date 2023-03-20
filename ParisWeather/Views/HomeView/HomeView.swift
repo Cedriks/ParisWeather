@@ -15,8 +15,10 @@ struct HomeView: View {
         NavigationView {
             switch viewModel.loadingState {
             case .loaded:
-                HomeViewLoaded(weather: viewModel.weather!,
-                               fiveDayWeather: viewModel.fiveDayWeather)
+                HomeViewLoaded(viewModel: HomeLoadedViewModel(
+                    weather: viewModel.weather!,
+                    fiveDayWeather: viewModel.fiveDayWeather
+                ))
                 .navigationTitle("Weather")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -39,6 +41,7 @@ struct HomeView: View {
                            loadingState: $viewModel.loadingState)
             }
         }
+        .navigationViewStyle(.stack)
     }
 }
 // MARK: - Preview

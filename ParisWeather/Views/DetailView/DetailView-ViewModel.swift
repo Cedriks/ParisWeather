@@ -6,39 +6,34 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor class DetailViewModel: ObservableObject {
     let weather: WeatherModel
     let dayWeather: DayWeather
-    let city: CityDataModel
+    let hourValues: WeatherDataModel?
     
-    let dict: [Int : WeatherDataModel]?
-    let keys: [Int]
-    let date: Date
-    let day: String
-    let month: String
-    let hourValues: WeatherDataModel
-    
-    init(weather: WeatherModel, dayWeather: DayWeather, city: CityDataModel) {
+    init(weather: WeatherModel, dayWeather: DayWeather) {
         self.weather = weather
         self.dayWeather = dayWeather
-        self.city = city
-        dict = dayWeather.hours
-        keys = dayWeather.hours.map{$0.key}.sorted(by: <)
-        date = dayWeather.date
-        day = date.getHumanReadableDayString()
-        month = date.getHumanReadableMonthString()
-        hourValues = dayWeather.hours.first!.value
+
+        if let hourValues = dayWeather.hours.first?.value {
+            self.hourValues = hourValues
+        } else {
+            self.hourValues = nil
+        }
     }
     
     func fullHumanDate() -> String {
-        "\(day) \(dayWeather.day) \(month)"
+        "\(dayWeather.date.getHumanReadableDayString()) \(dayWeather.day) \(dayWeather.date.getHumanReadableMonthString())"
     }
     
-    func weatherIcon() -> String {
-        
-   hourValues.weather.first!.icon
-
+    func weatherIcon() -> URL? {
+        if let iconName =  hourValues?.weather.first?.icon {
+            return URL(string: "https://openweathermap.org/img/wn/\(iconName)@2x.png")
+        } else {
+            return URL(string:"")
+        }
     }
     // MARK: - Rows Data
     func makeUnitRow(_ name: String, _ value: String, _ unit: String) -> UnitDescription {
@@ -48,92 +43,146 @@ import Foundation
     }
     
     func descriptionWeather() -> String {
-        hourValues.weather.first?.description ?? ""
+        hourValues?.weather.first?.description ?? ""
     }
     
-    func temperature() -> UnitDescription {
-        makeUnitRow("Temperature",
-                    String(format: "%.0f", hourValues.main.temp),
-                    "ºC")
+    func temperature() -> UnitDescription? {
+        if let temp = hourValues?.main.temp {
+           return makeUnitRow("Temperature",
+                        String(format: "%.0f", temp),
+                        "ºC")
+        } else {
+            return nil
+        }
     }
     
-    func minTemp() -> UnitDescription {
-        makeUnitRow("Min",
-                    String(format: "%.0f", hourValues.main.temp_min!),
-                    "ºC")
+    func minTemp() -> UnitDescription? {
+        if let temp = hourValues?.main.temp_min {
+            return makeUnitRow("Min",
+                        String(format: "%.0f", temp),
+                        "ºC")
+        } else {
+            return nil
+        }
     }
     
-    func maxTemp() -> UnitDescription {
-        makeUnitRow("Max",
-                    String(format: "%.0f", hourValues.main.temp_max),
-                    "ºC")
+    func makeMaxTemp() -> UnitDescription? {
+        if let temp = hourValues?.main.temp_max {
+          return makeUnitRow("Max",
+                        String(format: "%.0f", temp),
+                        "ºC")
+        } else {
+            return nil
+        }
     }
     
-    func pressure() -> UnitDescription {
-        makeUnitRow("Pressure",
-                    String(hourValues.main.pressure),
+    func makePressure() -> any View {
+        if let pressure = hourValues?.main.pressure {
+            let unit = makeUnitRow("Pressure",
+                    String(pressure),
                     "hPa")
+            return DetailRowView(unitDesc: unit)
+        } else {
+            return EmptyView()
+        }
     }
     
-    func seaLevel() -> UnitDescription {
-        makeUnitRow("Sea level",
-                    String(hourValues.main.sea_level),
+    func makeSeaLevel() -> any View {
+        if let seaLevel = hourValues?.main.pressure {
+            let unit = makeUnitRow("Sea level",
+                    String(seaLevel),
                     "hPa")
+            return DetailRowView(unitDesc: unit)
+        } else {
+            return EmptyView()
+        }
     }
     
-    func grndLevel() -> UnitDescription {
-        makeUnitRow("Ground level",
-                    String(hourValues.main.grnd_level),
+    func makeGrndLevel() -> any View {
+        if let seaLevel = hourValues?.main.grnd_level {
+            let unit = makeUnitRow("Ground level",
+                    String(seaLevel),
                     "hPa")
+            return DetailRowView(unitDesc: unit)
+        } else {
+            return EmptyView()
+        }
     }
     
-    func humidity() -> UnitDescription {
-        makeUnitRow("Humidity",
-                    String(hourValues.main.humidity),
+    func makeHumidity() -> any View {
+        if let humidity = hourValues?.main.humidity {
+            let unit = makeUnitRow("Humidity",
+                    String(humidity),
                     "%")
+            return DetailRowView(unitDesc: unit)
+        } else {
+            return EmptyView()
+        }
     }
     
-    
-    func clouds() -> UnitDescription {
-        makeUnitRow("Cloudiness",
-                    String(hourValues.clouds.all),
+    func makeClouds() -> any View {
+        if let clouds = hourValues?.clouds.all {
+           let unit = makeUnitRow("Cloudiness",
+                    String(clouds),
                     "%")
+            return DetailRowView(unitDesc: unit)
+        } else {
+            return EmptyView()
+        }
     }
     
-    func wind() -> UnitDescription {
-        makeUnitRow("Wind",
-                    String(hourValues.wind.speed),
+    func makeWind() -> UnitDescription? {
+        if let wind = hourValues?.wind.speed {
+            return makeUnitRow("Wind",
+                    String(wind),
                     "meter/sec")
+        } else {
+            return nil
+        }
     }
     
-    func windDeg() -> UnitDescription {
-        makeUnitRow("Wind direction",
-                    String(hourValues.wind.deg),
+    func makeWindDeg() -> UnitDescription? {
+        if let wind = hourValues?.wind.deg {
+        return makeUnitRow("Wind direction",
+                    String(wind),
                     "meter/sec")
+        } else {
+            return nil
+        }
     }
     
-    func rainLastHour() -> UnitDescription {
-        makeUnitRow("Rain last hour",
-                    String((hourValues.rain?.h3) ?? 0),
+    func makeRainLastHour() -> any View {
+        if let rain = hourValues?.rain?.h3 {
+        let unit = makeUnitRow("Rain last hour",
+                    String(rain),
                     "mm")
+            return DetailRowView(unitDesc: unit)
+        } else {
+            return EmptyView()
+        }
     }
     
-    func visibility() -> UnitDescription {
-        makeUnitRow("Average visibility",
-                    String(hourValues.visibility),
+    func makeVisibility() -> any View {
+        if let visibility = hourValues?.visibility {
+        let unit = makeUnitRow("Average visibility",
+                    String(visibility),
                     "m")
+            return DetailRowView(unitDesc: unit)
+        } else {
+            return EmptyView()
+        }
     }
     
-    func sunrise() -> UnitDescription {
-        let date : Date =  Date.makeReadableDate(dt: city.sunrise)
+    func makeSunrise() -> UnitDescription {
+        let date : Date =  Date.makeReadableDate(dt: weather.city.sunrise)
         let hour : String = date.toStringHours()
         return makeUnitRow("sunrise",
                            String(hour),
                            "sunrise")
     }
     
-    func sunset() -> UnitDescription {
-        let date : Date =  Date.makeReadableDate(dt: city.sunset)
+    func makeSunset() -> UnitDescription {
+        let date : Date =  Date.makeReadableDate(dt: weather.city.sunset)
         let hour : String = date.toStringHours()
         return makeUnitRow("sunset",
                            String(hour),

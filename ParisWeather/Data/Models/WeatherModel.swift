@@ -69,13 +69,13 @@ struct WeatherModel: Codable {
         return string
     }
     
-    static func makePreviewData() -> WeatherModel {
+    static func makePreviewData() -> WeatherModel? {
         var weatherModel: WeatherModel?
         do {
              weatherModel = try CityWeatherNetworker().makeWeatherFromStorage()!
         } catch {
             print(error.localizedDescription)
         }
-        return weatherModel!
+        return weatherModel
     }
 }
