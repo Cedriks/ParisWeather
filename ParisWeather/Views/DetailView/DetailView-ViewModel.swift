@@ -6,40 +6,24 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor class DetailViewModel: ObservableObject {
     let weather: WeatherModel
     let dayWeather: DayWeather
-    let city: CityDataModel
+    let hourValues: WeatherDataModel?
     
-    let dict: [Int : WeatherDataModel]?
-    let keys: [Int]
-    let date: Date
-    let day: String
-    let month: String
-    let hourValues: WeatherDataModel
-    
-    init(weather: WeatherModel, dayWeather: DayWeather, city: CityDataModel) {
+    init(weather: WeatherModel, dayWeather: DayWeather) {
         self.weather = weather
         self.dayWeather = dayWeather
-        self.city = city
-        dict = dayWeather.hours
-        keys = dayWeather.hours.map{$0.key}.sorted(by: <)
-        date = dayWeather.date
-        day = date.getHumanReadableDayString()
-        month = date.getHumanReadableMonthString()
-        hourValues = dayWeather.hours.first!.value
-    }
-    
-    func fullHumanDate() -> String {
-        "\(day) \(dayWeather.day) \(month)"
-    }
-    
-    func weatherIcon() -> String {
-        
-   hourValues.weather.first!.icon
 
+        if let hourValues = dayWeather.hours.first?.value {
+            self.hourValues = hourValues
+        } else {
+            self.hourValues = nil
+        }
     }
+    
     // MARK: - Rows Data
     func makeUnitRow(_ name: String, _ value: String, _ unit: String) -> UnitDescription {
         UnitDescription(name: name,
@@ -47,97 +31,94 @@ import Foundation
                         unit: unit)
     }
     
-    func descriptionWeather() -> String {
-        hourValues.weather.first?.description ?? ""
-    }
-    
-    func temperature() -> UnitDescription {
-        makeUnitRow("Temperature",
-                    String(format: "%.0f", hourValues.main.temp),
-                    "ºC")
-    }
-    
-    func minTemp() -> UnitDescription {
-        makeUnitRow("Min",
-                    String(format: "%.0f", hourValues.main.temp_min!),
-                    "ºC")
-    }
-    
-    func maxTemp() -> UnitDescription {
-        makeUnitRow("Max",
-                    String(format: "%.0f", hourValues.main.temp_max),
-                    "ºC")
-    }
-    
-    func pressure() -> UnitDescription {
-        makeUnitRow("Pressure",
-                    String(hourValues.main.pressure),
+    func makePressure() -> UnitDescription? {
+        if let pressure = hourValues?.main.pressure {
+            return makeUnitRow("Pressure",
+                    String(pressure),
                     "hPa")
+        } else {
+            return nil
+        }
     }
     
-    func seaLevel() -> UnitDescription {
-        makeUnitRow("Sea level",
-                    String(hourValues.main.sea_level),
+    func makeSeaLevel() -> UnitDescription? {
+        if let seaLevel = hourValues?.main.pressure {
+            return makeUnitRow("Sea level",
+                    String(seaLevel),
                     "hPa")
+        } else {
+            return nil
+        }
     }
     
-    func grndLevel() -> UnitDescription {
-        makeUnitRow("Ground level",
-                    String(hourValues.main.grnd_level),
+    func makeGrndLevel() -> UnitDescription? {
+        if let seaLevel = hourValues?.main.grnd_level {
+            return makeUnitRow("Ground level",
+                    String(seaLevel),
                     "hPa")
+        } else {
+            return nil
+        }
     }
     
-    func humidity() -> UnitDescription {
-        makeUnitRow("Humidity",
-                    String(hourValues.main.humidity),
+    func makeHumidity() -> UnitDescription?  {
+        if let humidity = hourValues?.main.humidity {
+            return makeUnitRow("Humidity",
+                    String(humidity),
                     "%")
+        } else {
+            return nil
+        }
     }
     
-    
-    func clouds() -> UnitDescription {
-        makeUnitRow("Cloudiness",
-                    String(hourValues.clouds.all),
+    func makeClouds() -> UnitDescription?  {
+        if let clouds = hourValues?.clouds.all {
+            return makeUnitRow("Cloudiness",
+                    String(clouds),
                     "%")
+        } else {
+            return nil
+        }
     }
     
-    func wind() -> UnitDescription {
-        makeUnitRow("Wind",
-                    String(hourValues.wind.speed),
+    func makeWind() -> UnitDescription? {
+        if let wind = hourValues?.wind.speed {
+            return makeUnitRow("Wind",
+                    String(wind),
                     "meter/sec")
+        } else {
+            return nil
+        }
     }
     
-    func windDeg() -> UnitDescription {
-        makeUnitRow("Wind direction",
-                    String(hourValues.wind.deg),
+    func makeWindDeg() -> UnitDescription? {
+        if let wind = hourValues?.wind.deg {
+        return makeUnitRow("Wind direction",
+                    String(wind),
                     "meter/sec")
+        } else {
+            return nil
+        }
     }
     
-    func rainLastHour() -> UnitDescription {
-        makeUnitRow("Rain last hour",
-                    String((hourValues.rain?.h3) ?? 0),
+    func makeRainLastHour() -> UnitDescription? {
+        if let rain = hourValues?.rain?.h3 {
+            return makeUnitRow("Rain last hour",
+                    String(rain),
                     "mm")
+        } else {
+            return nil
+        }
     }
     
-    func visibility() -> UnitDescription {
-        makeUnitRow("Average visibility",
-                    String(hourValues.visibility),
+    func makeVisibility() -> UnitDescription?  {
+        if let visibility = hourValues?.visibility {
+            return makeUnitRow("Average visibility",
+                    String(visibility),
                     "m")
-    }
-    
-    func sunrise() -> UnitDescription {
-        let date : Date =  Date.makeReadableDate(dt: city.sunrise)
-        let hour : String = date.toStringHours()
-        return makeUnitRow("sunrise",
-                           String(hour),
-                           "sunrise")
-    }
-    
-    func sunset() -> UnitDescription {
-        let date : Date =  Date.makeReadableDate(dt: city.sunset)
-        let hour : String = date.toStringHours()
-        return makeUnitRow("sunset",
-                           String(hour),
-                           "sunset")
+        } else {
+            return nil
+        }
     }
 }
 

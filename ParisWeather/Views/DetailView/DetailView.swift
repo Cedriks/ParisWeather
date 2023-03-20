@@ -11,74 +11,34 @@ struct DetailView: View {
     @StateObject var viewModel : DetailViewModel
     
     var body: some View {
-        let icon = viewModel.weather.list.first!.weather.first!.icon
         VStack {
             VStack {
-                HStack(alignment: .bottom){
-                    VStack{
-                        Image(systemName: viewModel.sunrise().unit)
-                        Text(viewModel.sunrise().value)
-                            .font(.caption)
-                    }
-                    Spacer()
-                    VStack {
-                        Text(viewModel.city.name)
-                            .font(.largeTitle)
-                        Text(viewModel.fullHumanDate())
-                        AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\((viewModel.dayWeather.hours.first?.value.weather.first?.icon)!)@2x.png"))
-                        HStack(alignment: .bottom) {
-                            HStack(alignment: .top) {
-                                Text(viewModel.temperature().value)
-                                Text(viewModel.temperature().unit)
-                                    .font(.caption)
-                            }
-                            VStack{
-                                HStack{
-                                    Text(viewModel.maxTemp().name + " " + viewModel.maxTemp().value + " " + viewModel.maxTemp().unit)
-                                        .font(.caption)
-                                        .fontWeight(.light)
-                                }
-                                HStack{
-                                    Text(viewModel.minTemp().name + " " + viewModel.minTemp().value + " " + viewModel.minTemp().unit)
-                                        .font(.caption)
-                                        .fontWeight(.light)
-                                }
-                            }
-                        }
-                        Text(viewModel.descriptionWeather())
-                            .font(.footnote)
-                    }
-                    Spacer()
-                    VStack{
-                        Image(systemName: viewModel.sunset().unit)
-                        Text(viewModel.sunset().value)
-                            .font(.caption)
-                    }
-                }
-                .padding(.horizontal)
+                HeaderDetailView(viewModel: HeaderDetailViewModel(weather: viewModel.weather, dayWeather: viewModel.dayWeather))
                 List {
-                    Section ("Atmospheric"){
-                        DetailRowView(unitDesc: viewModel.pressure())
-                        DetailRowView(unitDesc: viewModel.seaLevel())
-                        DetailRowView(unitDesc: viewModel.grndLevel())
-                        DetailRowView(unitDesc: viewModel.humidity())
+                    Section ("Atmospheric") {
+                        DetailRowView(unitDesc: viewModel.makePressure())
+                        DetailRowView(unitDesc: viewModel.makeSeaLevel())
+                        DetailRowView(unitDesc: viewModel.makeGrndLevel())
+                        DetailRowView(unitDesc: viewModel.makeHumidity())
                     }
                     Section ("Others"){
-                        DetailRowView(unitDesc: viewModel.clouds())
+                        DetailRowView(unitDesc: viewModel.makeClouds())
                         HStack {
-                            Text(viewModel.wind().name)
+                            Text(viewModel.makeWind()?.name ?? "")
                             Spacer()
-                            HStack(alignment: .bottom) {
-                                Image(systemName: "arrow.up")
-                                    .rotationEffect(.degrees(Double(viewModel.hourValues.wind.deg)))
-                                Text(viewModel.wind().value)
-                                Text(viewModel.wind().unit)
-                                    .font(.caption2)
+                            if(viewModel.makeWind() != nil) {
+                                HStack(alignment: .bottom) {
+                                    Image(systemName: "arrow.up")
+                                        .rotationEffect(.degrees(Double(viewModel.hourValues?.wind.deg ?? 0)))
+                                    Text(viewModel.makeWind()?.value ?? "")
+                                    Text(viewModel.makeWind()?.unit ?? "")
+                                        .font(.caption2)
+                                }
                             }
                         }
                         .padding(.horizontal)
-                        DetailRowView(unitDesc: viewModel.rainLastHour())
-                        DetailRowView(unitDesc: viewModel.visibility())
+                        DetailRowView(unitDesc: viewModel.makeRainLastHour())
+                        DetailRowView(unitDesc: viewModel.makeVisibility())
                     }
                 }
                 .listStyle(.grouped)
@@ -89,12 +49,16 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        
-        let weatherM: WeatherModel = WeatherModel.makePreviewData()
-        let weatherDataM : [WeatherDataModel] = weatherM.list
-        let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
-        
-        DetailView(viewModel: DetailViewModel(weather: weatherM, dayWeather: daysWeather.first!, city: weatherM.city))
+        if let weatherM: WeatherModel = WeatherModel.makePreviewData() {
+            let weatherDataM : [WeatherDataModel] = weatherM.list
+            let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
+            
+            DetailView(viewModel: DetailViewModel(weather: weatherM,
+                                                  dayWeather: daysWeather[1])
+            ).previewLayout(.sizeThatFits)
+        } else {
+            Text("No Preview Data\nLoad HomeView first")
+        }
     }
 }
 
