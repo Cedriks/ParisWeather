@@ -34,7 +34,8 @@ struct HomeView: View {
                         await viewModel.getWeather()
                     }
             case .failed:
-                FailedView(isReloadButtonDisplayable: true, errorMessage: viewModel.errorMessage ?? "Error",
+                FailedView(isReloadButtonDisplayable: true,
+                           errorMessage: viewModel.errorMessage ?? "Error",
                            loadingState: $viewModel.loadingState)
             }
         }
@@ -43,6 +44,6 @@ struct HomeView: View {
 // MARK: - Preview
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(viewModel: HomeViewModel(cityName: "Paris"))
+        HomeView(viewModel: HomeViewModel())
     }
 }

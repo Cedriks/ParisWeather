@@ -33,8 +33,8 @@ import Foundation
         "\(day) \(weather.day) \(month)"
     }
     
-    func weatherIcon() -> String {
-        (weather.hours.first?.value.weather.first!.icon)!
+    func weatherIcon() -> URL? {
+        URL(string: "https://openweathermap.org/img/wn/\(weather.hours.first?.value.weather.first!.icon)!@2x.png")
     }
     // MARK: - Rows Data
     func makeUnitRow(_ name: String, _ value: String, _ unit: String) -> UnitDescription {
@@ -135,7 +135,6 @@ import Foundation
                     String(hour),
                     "sunset")
     }
-    
 }
 
 struct UnitDescription {

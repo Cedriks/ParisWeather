@@ -15,13 +15,14 @@ struct WeatherRowView: View {
         let keys = dict.map{$0.key}.sorted(by: <)
         let humanDay = dayWeather.date.getHumanReadableDayString()
         let humanMonth = dayWeather.date.getHumanReadableMonthString()
-        let humanInfo = dayWeather.hours[13]!.weather.first! 
-        
+        let humanInfo = dayWeather.hours[13]!.weather.first!
+        let icon = URL(string: "https://openweathermap.org/img/wn/\(humanInfo.icon)@2x.png")
         HStack {
             ZStack {
-                AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(humanInfo.icon)@2x.png"))
+                AsyncImage(url: icon)
                     .frame(width: 20, height: 20)
-                    .opacity(0.2)
+                    .opacity(0.4)
+                    .padding([.leading, .top],20)
                 VStack(alignment: .leading) {
                     Text("\(humanDay)")
                         .multilineTextAlignment(.leading)

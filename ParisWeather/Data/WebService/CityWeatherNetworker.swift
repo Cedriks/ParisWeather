@@ -9,7 +9,7 @@ import Foundation
 
 protocol CityWeatherNetworking {
     func makeWeatherFromStorage() throws -> WeatherModel?
-    func fetchWeather(city: String) async throws -> WeatherModel
+    func fetchWeather() async throws -> WeatherModel
 }
 
 final class CityWeatherNetworker: CityWeatherNetworking {
@@ -17,16 +17,13 @@ final class CityWeatherNetworker: CityWeatherNetworking {
     private let webService: WebServiceProtocol
     private let urlSession: URLSession
     private let localFileName: String = "weatherInfos"
+    private let cityName: String = "Paris"
     
     init(webService: WebServiceProtocol = WebService(), urlSession: URLSession = .shared) {
         self.webService = webService
         self.urlSession = urlSession
     }
-    
-    
-    
-    
-    
+
     func makeWeatherFromStorage() throws -> WeatherModel? {
         do {
             /// - Get Data from local storage
@@ -39,8 +36,8 @@ final class CityWeatherNetworker: CityWeatherNetworking {
         }
     }
     
-    func fetchWeather(city: String) async throws -> WeatherModel {
-        guard let url: URL = try? webService.makeURL(city: city) else {
+    func fetchWeather() async throws -> WeatherModel {
+        guard let url: URL = try? webService.makeURL(city: cityName) else {
             throw WebServiceError.invalidURL
         }
         print(url)

@@ -11,11 +11,11 @@ struct FailedView: View {
     let isReloadButtonDisplayable: Bool
     var errorMessage: String?
     @Binding var loadingState: LoadingState
-
+    
     var body: some View {
         VStack {
             Spacer()
-                Text(errorMessage!)
+            Text(errorMessage!)
             Text("Please try later")
             Spacer()
             if isReloadButtonDisplayable {

@@ -17,7 +17,7 @@ final class MockCityWeatherNetworker: CityWeatherNetworking {
         return stubbedLeague
     }
     
-    func fetchWeather(city: String) async throws -> WeatherModel {
+    func fetchWeather() async throws -> WeatherModel {
         return stubbedLeague
     }
    

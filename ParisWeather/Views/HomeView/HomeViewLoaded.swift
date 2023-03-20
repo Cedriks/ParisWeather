@@ -14,7 +14,7 @@ struct HomeViewLoaded: View {
     var body: some View {
         let city: CityDataModel = weather.city
         let now: WeatherDataModel = weather.list.first!
-        
+        let icon = URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png")
         VStack {
             VStack {
                 Text(city.name)
@@ -22,7 +22,7 @@ struct HomeViewLoaded: View {
                 Text(Date().getHumanReadableDayString())
                     .fontWeight(.medium)
                 AsyncImage(
-                    url:  URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png"),
+                    url: icon,
                     content:{ image in
                         image.resizable()
                             .aspectRatio(contentMode: .fit)
@@ -58,6 +58,7 @@ struct HomeViewLoaded_Previews: PreviewProvider {
         let weatherM: WeatherModel = WeatherModel.makePreviewData()
         let weatherDataM : [WeatherDataModel] = weatherM.list
         let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
+        
         HomeViewLoaded(weather: weatherM, fiveDayWeather: daysWeather )
     }
 }

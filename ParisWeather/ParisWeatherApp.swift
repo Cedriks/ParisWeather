@@ -9,11 +9,10 @@ import SwiftUI
 
 @main
 struct ParisWeatherApp: App {
-    let cityName: String = "Paris"
-
+    
     var body: some Scene {
         WindowGroup {
-            HomeView(viewModel: HomeViewModel(cityName: cityName))
+            HomeView(viewModel: HomeViewModel())
         }
     }
 }

@@ -18,7 +18,7 @@ final class HomeViewModelSpec: XCTestCase {
         mockWeather = MockCityWeatherNetworker()
         
         mockWeather.stubbedLeague = WeatherModel.makePreviewData()
-        viewModel = HomeViewModel(cityName: "Paris", cityWeatherNetworker: mockWeather! )
+        viewModel = HomeViewModel(cityWeatherNetworker: mockWeather! )
     }
     
     @MainActor func testmakeWeatherFromStorageToTrue() async {

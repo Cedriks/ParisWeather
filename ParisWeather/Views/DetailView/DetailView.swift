@@ -11,9 +11,9 @@ struct DetailView: View {
     @StateObject var viewModel : DetailViewModel
     
     var body: some View {
+        let icon = viewModel.weatherIcon()
         VStack {
             VStack {
-                
                 HStack(alignment: .bottom){
                     VStack{
                         Image(systemName: viewModel.sunrise().unit)
@@ -26,7 +26,7 @@ struct DetailView: View {
                             .font(.largeTitle)
                         Text(viewModel.fullHumanDate())
                         AsyncImage(
-                            url:  URL(string: "https://openweathermap.org/img/wn/\(viewModel.weatherIcon())@2x.png"),
+                            url: icon,
                             content:{ image in
                                 image.resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -34,15 +34,28 @@ struct DetailView: View {
                                     .padding(.horizontal, 4.0)
                             },
                             placeholder: {
-                             EmptyView()
+                                EmptyView()
                                     .frame(maxWidth: 48)
                             }
                         )
-                      
-                        HStack(alignment: .top) {
-                            Text(viewModel.temperature().value)
-                            Text(viewModel.temperature().unit)
-                                .font(.caption)
+                        HStack(alignment: .bottom) {
+                            HStack(alignment: .top) {
+                                Text(viewModel.temperature().value)
+                                Text(viewModel.temperature().unit)
+                                    .font(.caption)
+                            }
+                            VStack{
+                                HStack{
+                                    Text(viewModel.maxTemp().name + " " + viewModel.maxTemp().value + " " + viewModel.maxTemp().unit)
+                                        .font(.caption)
+                                        .fontWeight(.light)
+                                }
+                                HStack{
+                                    Text(viewModel.minTemp().name + " " + viewModel.minTemp().value + " " + viewModel.minTemp().unit)
+                                        .font(.caption)
+                                        .fontWeight(.light)
+                                }
+                            }
                         }
                         Text(viewModel.descriptionWeather())
                             .font(.footnote)
@@ -56,11 +69,6 @@ struct DetailView: View {
                 }
                 .padding(.horizontal)
                 List {
-                    Section ("Temperature"){
-                        DetailRowView(unitDesc: viewModel.temperature())
-                        DetailRowView(unitDesc: viewModel.minTemp())
-                        DetailRowView(unitDesc: viewModel.maxTemp())
-                    }
                     Section ("Atmospheric"){
                         DetailRowView(unitDesc: viewModel.pressure())
                         DetailRowView(unitDesc: viewModel.seaLevel())
