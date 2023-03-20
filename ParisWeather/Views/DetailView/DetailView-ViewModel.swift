@@ -36,29 +36,35 @@ import Foundation
     func weatherIcon() -> String {
         (weather.hours.first?.value.weather.first!.icon)!
     }
-    // MARK: Rows Data
+    // MARK: - Rows Data
     func makeUnitRow(_ name: String, _ value: String, _ unit: String) -> UnitDescription {
-        UnitDescription(name: name, value: value, unit: unit)
+        UnitDescription(name: name,
+                        value: value,
+                        unit: unit)
     }
+    
     func descriptionWeather() -> String {
         hourValues.weather.first?.description ?? ""
     }
+    
     func temperature() -> UnitDescription {
         makeUnitRow("Temperature",
                     String(format: "%.0f", hourValues.main.temp),
                     "ºC")
     }
+    
     func minTemp() -> UnitDescription {
         makeUnitRow("Min",
                     String(format: "%.0f", hourValues.main.temp_min!),
                     "ºC")
-      
     }
+    
     func maxTemp() -> UnitDescription {
         makeUnitRow("Max",
                     String(format: "%.0f", hourValues.main.temp_max),
                     "ºC")
     }
+    
     func pressure() -> UnitDescription {
         makeUnitRow("Pressure",
                     String(hourValues.main.pressure),
@@ -101,6 +107,7 @@ import Foundation
                     String(hourValues.wind.deg),
                     "meter/sec")
     }
+    
     func rainLastHour() -> UnitDescription {
         makeUnitRow("Rain last hour",
                     String((hourValues.rain?.h3) ?? 0),

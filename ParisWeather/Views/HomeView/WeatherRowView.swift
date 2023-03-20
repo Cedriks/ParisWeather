@@ -2,21 +2,20 @@
 //  WeatherRowView.swift
 //  ParisWeather
 //
-//  Created by Cedrik on 18/03/2023.
+//  Created by Cedrik on 20/03/2023.
 //
 
 import SwiftUI
 
 struct WeatherRowView: View {
     var dayWeather : DayWeather
-    
-    //    (dayWeather.hours.first!.weather.first?.icon)!
+
     var body: some View {
         let dict = dayWeather.hours
         let keys = dict.map{$0.key}.sorted(by: <)
         let humanDay = dayWeather.date.getHumanReadableDayString()
         let humanMonth = dayWeather.date.getHumanReadableMonthString()
-        let humanInfo = dayWeather.hours[13]!.weather.first!
+        let humanInfo = dayWeather.hours[13]!.weather.first! 
         
         HStack {
             ZStack {

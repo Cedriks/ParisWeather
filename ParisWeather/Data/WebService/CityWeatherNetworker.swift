@@ -2,16 +2,14 @@
 //  CityWeatherNetworker.swift
 //  ParisWeather
 //
-//  Created by Cedrik on 17/03/2023.
+//  Created by Cedrik on 20/03/2023.
 //
 
 import Foundation
 
 protocol CityWeatherNetworking {
-    func fetchWeather(city:String) async throws -> WeatherModel
     func makeWeatherFromStorage() throws -> WeatherModel?
-    func decodeWeatherModel(from data: Data) throws -> WeatherModel?
-    func encodeWeatherModel(weatherModel: WeatherModel) throws -> String
+    func fetchWeather(city: String) async throws -> WeatherModel
 }
 
 final class CityWeatherNetworker: CityWeatherNetworking {
@@ -24,7 +22,10 @@ final class CityWeatherNetworker: CityWeatherNetworking {
         self.webService = webService
         self.urlSession = urlSession
     }
-
+    
+    
+    
+    
     
     func makeWeatherFromStorage() throws -> WeatherModel? {
         do {

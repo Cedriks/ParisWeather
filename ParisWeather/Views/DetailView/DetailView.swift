@@ -25,8 +25,6 @@ struct DetailView: View {
                         Text(viewModel.city.name)
                             .font(.largeTitle)
                         Text(viewModel.fullHumanDate())
-//                        AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(viewModel.weatherIcon())@2x.png"))
-//                            .frame(maxWidth: 100, maxHeight: 100)
                         AsyncImage(
                             url:  URL(string: "https://openweathermap.org/img/wn/\(viewModel.weatherIcon())@2x.png"),
                             content:{ image in

@@ -2,7 +2,7 @@
 //  HomeView-ViewModel.swift
 //  ParisWeather
 //
-//  Created by Cedrik on 17/03/2023.
+//  Created by Cedrik on 20/03/2023.
 //
 
 import Foundation
@@ -18,14 +18,14 @@ enum SourceData {
     @Published var loadingState = LoadingState.loading
     @Published private(set) var weather: WeatherModel? = nil
     
-    private let cityWeatherNetworker: CityWeatherNetworker
+    private let cityWeatherNetworker: CityWeatherNetworking
     
     @Published var fiveDayWeather : [DayWeather] = []
     
     @Published var sourceData: SourceData? = .none
     @Published var errorMessage : String? = nil
     
-    init(cityName: String, cityWeatherNetworker: CityWeatherNetworker = CityWeatherNetworker()) {
+    init(cityName: String, cityWeatherNetworker: CityWeatherNetworking = CityWeatherNetworker()) {
         self.cityName = cityName
         self.cityWeatherNetworker = cityWeatherNetworker
     }

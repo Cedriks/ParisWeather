@@ -2,7 +2,7 @@
 //  WeatherModel.swift
 //  ParisWeather
 //
-//  Created by Cedrik on 17/03/2023.
+//  Created by Cedrik on 20/03/2023.
 //
 
 import Foundation
@@ -16,6 +16,7 @@ struct WeatherModel: Codable {
     }
     //MARK: - Methods
     
+    /// Make sure only 5 days of weather
     func makeFiveDaysWeather(weather: WeatherModel?) -> [WeatherDataModel] {
         let dayTask = Date()
         let lastDay = dayTask.lastDate()
@@ -25,6 +26,10 @@ struct WeatherModel: Codable {
         return weatherList.filter{ Date.makeReadableDate(dt: ($0.dt)) <= lastDay }
     }
     
+    
+    /// Group Weather datas by Day
+    /// - Parameter fiveDaysData: [WeatherDataModel]
+    /// - Returns: Array of Days Weather
     func makeIOrderedWeatherDataByDay(fiveDaysData: [WeatherDataModel]) -> [DayWeather] {
         var dayWeatherArray : [DayWeather] = []
         var currentDate: String = onlyDayDate(str: fiveDaysData.first!.dt_txt!)
@@ -54,6 +59,8 @@ struct WeatherModel: Codable {
         return dayWeatherArray
     }
     
+    /// Date `String` format MM/jj/yyyy
+    /// - Returns: "MM/jj/yyyy"
     func onlyDayDate(str: String) -> String {
         var string = str
         if let spaceRange = string.range(of: " ") {

@@ -19,6 +19,4 @@ struct WeatherDescriptionDataModel: Codable, Hashable {
              description,
              icon
     }
-    
-    
 }
