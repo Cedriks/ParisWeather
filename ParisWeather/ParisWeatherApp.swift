@@ -13,7 +13,7 @@ struct ParisWeatherApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView(viewModel: HomeView.ViewModel(cityName: cityName))
+            HomeView(viewModel: HomeViewModel(cityName: cityName))
         }
     }
 }

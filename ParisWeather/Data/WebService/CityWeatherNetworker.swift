@@ -91,7 +91,6 @@ final class CityWeatherNetworker: CityWeatherNetworking {
         do {
             let encodeWeather = try jsonEncoder.encode(weather)
             let endcodeStringWeather = String(data: encodeWeather, encoding: .utf8)!
-            print(endcodeStringWeather)
             return endcodeStringWeather
         } catch {
             print(error.localizedDescription)

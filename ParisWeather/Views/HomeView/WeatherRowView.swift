@@ -36,9 +36,13 @@ struct WeatherRowView: View {
 }
 
 
-//struct WeatherRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WeatherRowView()
-//            .previewLayout(.sizeThatFits)
-//    }
-//}
+struct WeatherRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        let weatherM: WeatherModel = WeatherModel.makePreviewData()
+        let weatherDataM : [WeatherDataModel] = weatherM.list
+        let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
+        
+        WeatherRowView(dayWeather: daysWeather.first!)
+            .previewLayout(.sizeThatFits)
+    }
+}

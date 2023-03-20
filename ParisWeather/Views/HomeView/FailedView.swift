@@ -9,11 +9,13 @@ import SwiftUI
 
 struct FailedView: View {
     let isReloadButtonDisplayable: Bool
+    var errorMessage: String?
     @Binding var loadingState: LoadingState
 
     var body: some View {
         VStack {
             Spacer()
+                Text(errorMessage!)
             Text("Please try later")
             Spacer()
             if isReloadButtonDisplayable {
@@ -28,9 +30,3 @@ struct FailedView: View {
         }
     }
 }
-
-//struct FailedView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FailedView()
-//    }
-//}

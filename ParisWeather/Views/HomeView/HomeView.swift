@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - View
 struct HomeView: View {
-    @StateObject var viewModel : ViewModel
+    @StateObject var viewModel : HomeViewModel
     
     var body: some View {
         NavigationView {
@@ -34,7 +34,7 @@ struct HomeView: View {
                         await viewModel.getWeather()
                     }
             case .failed:
-                FailedView(isReloadButtonDisplayable: true,
+                FailedView(isReloadButtonDisplayable: true, errorMessage: viewModel.errorMessage ?? "Error",
                            loadingState: $viewModel.loadingState)
             }
         }
@@ -43,6 +43,6 @@ struct HomeView: View {
 // MARK: - Preview
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(viewModel: HomeView.ViewModel(cityName: "Paris"))
+        HomeView(viewModel: HomeViewModel(cityName: "Paris"))
     }
 }

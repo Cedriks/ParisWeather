@@ -13,7 +13,6 @@ struct HomeViewLoaded: View {
     
     var body: some View {
         let city: CityDataModel = weather.city
-//        let list: [WeatherData] = weather.list
         let now: WeatherDataModel = weather.list.first!
         
         VStack {
@@ -23,11 +22,11 @@ struct HomeViewLoaded: View {
                 Text(Date().getHumanReadableDayString())
                 AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png"))
             }
-            List(fiveDayWeather, id: \.self.day) { weather in
+            List(fiveDayWeather, id: \.self.day) { dayWeather in
                 NavigationLink(
-                    destination: EmptyView()
+                    destination: DetailView(viewModel: DetailView.ViewModel(weather: dayWeather, city: weather.city))
                 ) {
-                    WeatherRowView(dayWeather: weather)
+                    WeatherRowView(dayWeather: dayWeather)
                 }.accessibilityIdentifier("leagueNavigationLink")
             }
             .listStyle(.inset)
@@ -38,7 +37,9 @@ struct HomeViewLoaded: View {
 
 //struct HomeViewLoaded_Previews: PreviewProvider {
 //    static var previews: some View {
-//        HomeViewLoaded()
+//        let weather: WeatherModel = HomeView.ViewModel(cityName: "Paris").weather!
+//        let dayWeather: [DayWeather] = weather.makeIOrderedWeatherDataByDay(fiveDaysData: weather.list)
+//        HomeViewLoaded(weather: weather, fiveDayWeather: dayWeather )
 //    }
 //}
 
