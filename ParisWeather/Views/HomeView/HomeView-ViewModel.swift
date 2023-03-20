@@ -20,6 +20,7 @@ enum SourceData {
     @Published private(set) var fiveDayWeather : [DayWeather] = []
     @Published private(set) var sourceData: SourceData? = .none
     @Published private(set) var errorMessage : String? = nil
+    var firstLaunch : Bool = true
     
     private let cityWeatherNetworker: CityWeatherNetworking
     
@@ -28,22 +29,26 @@ enum SourceData {
     }
     
     func getWeather() async {
-        // - Local Storage
-        do {
-            self.weather = try cityWeatherNetworker.makeWeatherFromStorage()
-            if (self.weather != nil) {
-                prepareForPresentation(source: .localStorage)
-            }
-        } catch {
-            errorMessage = error.localizedDescription
-            if(  sourceData == .localStorage || sourceData == .none){
-                loadingState = .failed
+        if(!firstLaunch) {
+            // - Local Storage
+            do {
+                self.weather = try cityWeatherNetworker.makeWeatherFromStorage()
+                if (self.weather != nil) {
+                    prepareForPresentation(source: .localStorage)
+                }
+            } catch {
+                errorMessage = error.localizedDescription
+                if(  sourceData == .localStorage || sourceData == .none){
+                    loadingState = .failed
+                }
             }
         }
         // - API Request
         do {
+            firstLaunch.toggle()
             self.weather = try await cityWeatherNetworker.fetchWeather()
             prepareForPresentation(source: .webService)
+            
         } catch {
             errorMessage = error.localizedDescription
             if(  sourceData == .webService || sourceData == .none){

@@ -8,19 +8,23 @@
 import SwiftUI
 
 struct DetailRowView: View {
-    var unitDesc: UnitDescription
+    var unitDesc: UnitDescription?
     
     var body: some View {
-        HStack {
-            Text(unitDesc.name)
-            Spacer()
-            HStack(alignment: .bottom) {
-                Text(unitDesc.value)
-                Text(unitDesc.unit)
-                    .font(.caption2)
+        if let unit = unitDesc {
+            HStack {
+                Text(unit.name)
+                Spacer()
+                HStack(alignment: .bottom) {
+                    Text(unit.value)
+                    Text(unit.unit)
+                        .font(.caption2)
+                }
             }
+            .padding(.horizontal)
+        } else {
+            EmptyView()
         }
-        .padding(.horizontal)
     }
 }
 struct DetailRowView_Previews: PreviewProvider {

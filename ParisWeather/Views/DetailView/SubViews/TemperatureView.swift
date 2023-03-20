@@ -13,8 +13,8 @@ struct TemperatureView: View {
     var body: some View {
         HStack(alignment: .bottom) {
             HStack(alignment: .top) {
-                Text(viewModel.makeTemperature.value ?? "")
-                Text(viewModel.makeTemperature.unit ?? "")
+                Text(viewModel.makeTemperature()?.value ?? "")
+                Text(viewModel.makeTemperature()?.unit ?? "")
                     .font(.caption)
             }
             VStack{
@@ -30,12 +30,5 @@ struct TemperatureView: View {
                 }
             }
         }
-    }
-}
-
-
-struct TemperatureView_Previews: PreviewProvider {
-    static var previews: some View {
-        TemperatureView()
     }
 }

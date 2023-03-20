@@ -24,72 +24,60 @@ import SwiftUI
         }
     }
     
-   
-    
-    
     // MARK: - Rows Data
     func makeUnitRow(_ name: String, _ value: String, _ unit: String) -> UnitDescription {
         UnitDescription(name: name,
                         value: value,
                         unit: unit)
     }
-   
     
-    
-  
-    
-    func makePressure() -> any View {
+    func makePressure() -> UnitDescription? {
         if let pressure = hourValues?.main.pressure {
-            let unit = makeUnitRow("Pressure",
+            return makeUnitRow("Pressure",
                     String(pressure),
                     "hPa")
-            return DetailRowView(unitDesc: unit)
         } else {
-            return EmptyView()
+            return nil
         }
     }
     
-    func makeSeaLevel() -> any View {
+    func makeSeaLevel() -> UnitDescription? {
         if let seaLevel = hourValues?.main.pressure {
-            let unit = makeUnitRow("Sea level",
+            return makeUnitRow("Sea level",
                     String(seaLevel),
                     "hPa")
-            return DetailRowView(unitDesc: unit)
         } else {
-            return EmptyView()
+            return nil
         }
     }
     
-    func makeGrndLevel() -> any View {
+    func makeGrndLevel() -> UnitDescription? {
         if let seaLevel = hourValues?.main.grnd_level {
-            let unit = makeUnitRow("Ground level",
+            return makeUnitRow("Ground level",
                     String(seaLevel),
                     "hPa")
-            return DetailRowView(unitDesc: unit)
         } else {
-            return EmptyView()
+            return nil
         }
     }
     
-    func makeHumidity() -> any View {
+    func makeHumidity() -> UnitDescription?  {
         if let humidity = hourValues?.main.humidity {
-            let unit = makeUnitRow("Humidity",
+            return makeUnitRow("Humidity",
                     String(humidity),
                     "%")
-            return DetailRowView(unitDesc: unit)
         } else {
-            return EmptyView()
+            return nil
         }
     }
     
-    func makeClouds() -> any View {
+    func makeClouds() -> UnitDescription?  {
         if let clouds = hourValues?.clouds.all {
-           let unit = makeUnitRow("Cloudiness",
+            return makeUnitRow("Cloudiness",
                     String(clouds),
                     "%")
-            return DetailRowView(unitDesc: unit)
         } else {
-            return EmptyView()
+            return nil
         }
     }
     
@@ -113,29 +101,25 @@ import SwiftUI
         }
     }
     
-    func makeRainLastHour() -> any View {
+    func makeRainLastHour() -> UnitDescription? {
         if let rain = hourValues?.rain?.h3 {
-        let unit = makeUnitRow("Rain last hour",
+            return makeUnitRow("Rain last hour",
                     String(rain),
                     "mm")
-            return DetailRowView(unitDesc: unit)
         } else {
-            return EmptyView()
+            return nil
         }
     }
     
-    func makeVisibility() -> any View {
+    func makeVisibility() -> UnitDescription?  {
         if let visibility = hourValues?.visibility {
-        let unit = makeUnitRow("Average visibility",
+            return makeUnitRow("Average visibility",
                     String(visibility),
                     "m")
-            return DetailRowView(unitDesc: unit)
         } else {
-            return EmptyView()
+            return nil
         }
     }
-    
-  
 }
 
 struct UnitDescription {

@@ -12,14 +12,16 @@ struct HeaderDetailView: View {
     
     var body: some View {
         HStack(alignment: .bottom){
-            SunriseView(makeSunset: viewModel.makeSunrise())
+            SunriseView(makeSunrise: viewModel.makeSunrise())
             Spacer()
             VStack {
                 Text(viewModel.weather.city.name)
                     .font(.largeTitle)
                 Text(viewModel.fullHumanDate())
                 AsyncImage(url: viewModel.weatherIcon())
-                TemperatureView(viewModel: TemperatureViewModel(hourValues: viewModel.hourValues ?? nil))
+                if let hourValues = viewModel.hourValues {
+                    TemperatureView(viewModel: TemperatureViewModel(hourValues: hourValues))
+                }
                 Text(viewModel.descriptionWeather())
                     .font(.footnote)
             }
