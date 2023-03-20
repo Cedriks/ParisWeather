@@ -13,51 +13,9 @@ struct DetailView: View {
     var body: some View {
         VStack {
             VStack {
-                HStack(alignment: .bottom){
-                
-                    VStack{
-                        Image(systemName: viewModel.sunrise().unit)
-                        Text(viewModel.sunrise().value)
-                            .font(.caption)
-                    }
-                    Spacer()
-                    VStack {
-                        Text(viewModel.city.name)
-                            .font(.largeTitle)
-                        Text(viewModel.fullHumanDate())
-                        AsyncImage(url: viewModel.weatherIcon())
-                        HStack(alignment: .bottom) {
-                            HStack(alignment: .top) {
-                                Text(viewModel.temperature().value)
-                                Text(viewModel.temperature().unit)
-                                    .font(.caption)
-                            }
-                            VStack{
-                                HStack{
-                                    Text(viewModel.maxTemp().name + " " + viewModel.maxTemp().value + " " + viewModel.maxTemp().unit)
-                                        .font(.caption)
-                                        .fontWeight(.light)
-                                }
-                                HStack{
-                                    Text(viewModel.minTemp().name + " " + viewModel.minTemp().value + " " + viewModel.minTemp().unit)
-                                        .font(.caption)
-                                        .fontWeight(.light)
-                                }
-                            }
-                        }
-                        Text(viewModel.descriptionWeather())
-                            .font(.footnote)
-                    }
-                    Spacer()
-                    VStack{
-                        Image(systemName: $viewModel.sunset().unit)
-                        Text(viewModel.sunset().value)
-                            .font(.caption)
-                    }
-                }
-                .padding(.horizontal)
-//                List {
-//                    Section ("Atmospheric"){
+                HeaderDetailView(viewModel: HeaderDetailViewModel(weather: viewModel.weather, dayWeather: viewModel.dayWeather))
+                List {
+//                    Section ("Atmospheric") {
 //                        viewModel.makePressure()
 //                        viewModel.makeSeaLevel()
 //                        viewModel.makeGrndLevel()
@@ -80,8 +38,8 @@ struct DetailView: View {
 //                        viewModel.makeRainLastHour()
 //                        viewModel.makeVisibility()
 //                    }
-//                }
-//                .listStyle(.grouped)
+                }
+                .listStyle(.grouped)
             }
         }
     }
