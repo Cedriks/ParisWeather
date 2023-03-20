@@ -22,6 +22,4 @@ struct DayWeather {
         self.year = year
         self.hours = hours
     }
-    
-  
 }

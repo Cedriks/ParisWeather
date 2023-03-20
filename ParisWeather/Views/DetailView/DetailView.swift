@@ -11,7 +11,7 @@ struct DetailView: View {
     @StateObject var viewModel : DetailViewModel
     
     var body: some View {
-        let icon = viewModel.weatherIcon()
+        let icon = viewModel.weather.list.first!.weather.first!.icon
         VStack {
             VStack {
                 HStack(alignment: .bottom){
@@ -25,19 +25,7 @@ struct DetailView: View {
                         Text(viewModel.city.name)
                             .font(.largeTitle)
                         Text(viewModel.fullHumanDate())
-                        AsyncImage(
-                            url: icon,
-                            content:{ image in
-                                image.resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(maxWidth: 100, maxHeight: 100)
-                                    .padding(.horizontal, 4.0)
-                            },
-                            placeholder: {
-                                EmptyView()
-                                    .frame(maxWidth: 48)
-                            }
-                        )
+                        AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\((viewModel.dayWeather.hours.first?.value.weather.first?.icon)!)@2x.png"))
                         HStack(alignment: .bottom) {
                             HStack(alignment: .top) {
                                 Text(viewModel.temperature().value)
@@ -106,7 +94,7 @@ struct DetailView_Previews: PreviewProvider {
         let weatherDataM : [WeatherDataModel] = weatherM.list
         let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
         
-        DetailView(viewModel: DetailViewModel(weather: daysWeather.first!, city: weatherM.city))
+        DetailView(viewModel: DetailViewModel(weather: weatherM, dayWeather: daysWeather.first!, city: weatherM.city))
     }
 }
 

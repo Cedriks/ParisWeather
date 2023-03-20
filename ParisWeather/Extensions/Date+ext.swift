@@ -37,7 +37,6 @@ extension Date {
             "Friday",
             "Saturday"
         ]
-        
         let calendar = Calendar.current.component(.weekday, from: self)
         return weekdays[calendar - 1]
     }
@@ -57,7 +56,6 @@ extension Date {
             "November",
             "December"
         ]
-        
         let calendar = Calendar.current.component(.month, from: self)
         return months[calendar - 1]
     }

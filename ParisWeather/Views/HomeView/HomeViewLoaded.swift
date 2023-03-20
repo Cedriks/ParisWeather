@@ -42,7 +42,7 @@ struct HomeViewLoaded: View {
             }
             List(fiveDayWeather, id: \.self.day) { dayWeather in
                 NavigationLink(
-                    destination: DetailView(viewModel: DetailViewModel(weather: dayWeather, city: weather.city))
+                    destination: DetailView(viewModel: DetailViewModel(weather: weather, dayWeather: dayWeather, city: weather.city))
                 ) {
                     WeatherRowView(dayWeather: dayWeather)
                 }.accessibilityIdentifier("leagueNavigationLink")

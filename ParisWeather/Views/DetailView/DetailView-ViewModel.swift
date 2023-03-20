@@ -8,7 +8,8 @@
 import Foundation
 
 @MainActor class DetailViewModel: ObservableObject {
-    let weather: DayWeather
+    let weather: WeatherModel
+    let dayWeather: DayWeather
     let city: CityDataModel
     
     let dict: [Int : WeatherDataModel]?
@@ -18,23 +19,26 @@ import Foundation
     let month: String
     let hourValues: WeatherDataModel
     
-    init(weather: DayWeather, city: CityDataModel) {
+    init(weather: WeatherModel, dayWeather: DayWeather, city: CityDataModel) {
         self.weather = weather
+        self.dayWeather = dayWeather
         self.city = city
-        dict = weather.hours
-        keys = weather.hours.map{$0.key}.sorted(by: <)
-        date = weather.date
+        dict = dayWeather.hours
+        keys = dayWeather.hours.map{$0.key}.sorted(by: <)
+        date = dayWeather.date
         day = date.getHumanReadableDayString()
         month = date.getHumanReadableMonthString()
-        hourValues = weather.hours.first!.value
+        hourValues = dayWeather.hours.first!.value
     }
     
     func fullHumanDate() -> String {
-        "\(day) \(weather.day) \(month)"
+        "\(day) \(dayWeather.day) \(month)"
     }
     
-    func weatherIcon() -> URL? {
-        URL(string: "https://openweathermap.org/img/wn/\(weather.hours.first?.value.weather.first!.icon)!@2x.png")
+    func weatherIcon() -> String {
+        
+   hourValues.weather.first!.icon
+
     }
     // MARK: - Rows Data
     func makeUnitRow(_ name: String, _ value: String, _ unit: String) -> UnitDescription {
@@ -70,7 +74,7 @@ import Foundation
                     String(hourValues.main.pressure),
                     "hPa")
     }
-
+    
     func seaLevel() -> UnitDescription {
         makeUnitRow("Sea level",
                     String(hourValues.main.sea_level),
@@ -95,7 +99,7 @@ import Foundation
                     String(hourValues.clouds.all),
                     "%")
     }
-   
+    
     func wind() -> UnitDescription {
         makeUnitRow("Wind",
                     String(hourValues.wind.speed),
@@ -124,16 +128,16 @@ import Foundation
         let date : Date =  Date.makeReadableDate(dt: city.sunrise)
         let hour : String = date.toStringHours()
         return makeUnitRow("sunrise",
-                    String(hour),
-                    "sunrise")
+                           String(hour),
+                           "sunrise")
     }
     
     func sunset() -> UnitDescription {
         let date : Date =  Date.makeReadableDate(dt: city.sunset)
         let hour : String = date.toStringHours()
         return makeUnitRow("sunset",
-                    String(hour),
-                    "sunset")
+                           String(hour),
+                           "sunset")
     }
 }
 

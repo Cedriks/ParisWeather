@@ -29,18 +29,18 @@ enum SourceData {
     
     func getWeather() async {
         // - Local Storage
-        do {
-            self.weather = try cityWeatherNetworker.makeWeatherFromStorage()
-            if (self.weather != nil) {
-                prepareForPresentation(source: .localStorage)
-            }
-        } catch {
-            errorMessage = error.localizedDescription
-            if(  sourceData == .localStorage || sourceData == .none){
-                loadingState = .failed
-            }
-        }
-        // - API Request
+//        do {
+//            self.weather = try cityWeatherNetworker.makeWeatherFromStorage()
+//            if (self.weather != nil) {
+//                prepareForPresentation(source: .localStorage)
+//            }
+//        } catch {
+//            errorMessage = error.localizedDescription
+//            if(  sourceData == .localStorage || sourceData == .none){
+//                loadingState = .failed
+//            }
+//        }
+//        // - API Request
         do {
             self.weather = try await cityWeatherNetworker.fetchWeather()
             prepareForPresentation(source: .webService)
