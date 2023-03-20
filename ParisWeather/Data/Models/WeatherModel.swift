@@ -22,7 +22,7 @@ struct WeatherModel: Codable {
         guard let weatherList = weather?.list else {
             return []
         }
-        return weatherList.filter{ Date().makeReadableDate(dt: ($0.dt)) <= lastDay }
+        return weatherList.filter{ Date.makeReadableDate(dt: ($0.dt)) <= lastDay }
     }
     
     func makeIOrderedWeatherDataByDay(fiveDaysData: [WeatherDataModel]) -> [DayWeather] {
@@ -32,7 +32,7 @@ struct WeatherModel: Codable {
         
         for weatherData in fiveDaysData {
             let weatherDataDate: String = onlyDayDate(str: weatherData.dt_txt!)
-            let newDate = Date().makeReadableDate(dt: Int(weatherData.dt))
+            let newDate = Date.makeReadableDate(dt: Int(weatherData.dt))
             let newDateComponents = Calendar.current.dateComponents([.hour, .day, .year, .month], from: newDate)
             let newHour : Int = newDateComponents.hour!
             if (weatherDataDate != currentDate) {

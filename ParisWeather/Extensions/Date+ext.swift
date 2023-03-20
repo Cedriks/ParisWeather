@@ -9,11 +9,18 @@ import Foundation
 
 extension Date {
     
-    func makeReadableDate(dt: Int) -> Date {
+    static func makeReadableDate(dt: Int) -> Date {
         Date(timeIntervalSince1970: TimeInterval(dt))
     }
     
     func toString(format: String = "dd-MM-yyyy HH:mm") -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+    
+    func toStringHours(format: String = "HH:mm") -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.dateFormat = format

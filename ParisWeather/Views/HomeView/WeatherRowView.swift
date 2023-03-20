@@ -10,28 +10,54 @@ import SwiftUI
 struct WeatherRowView: View {
     var dayWeather : DayWeather
     
+    //    (dayWeather.hours.first!.weather.first?.icon)!
     var body: some View {
         let dict = dayWeather.hours
         let keys = dict.map{$0.key}.sorted(by: <)
         let humanDay = dayWeather.date.getHumanReadableDayString()
         let humanMonth = dayWeather.date.getHumanReadableMonthString()
+        let humanInfo = dayWeather.hours[13]!.weather.first!
         
         HStack {
-            Text("\(humanDay) \(dayWeather.day) \(humanMonth)")
-                .fontWeight(.medium)
-            Spacer()
-            HStack(alignment: .top) {
-                ForEach(keys.indices) {index in
-                    VStack {
-                        Text("\(keys[index])")
-                            .font(.caption2)
-                        Text( String(format: "%.0f",dict[keys[index]]!.main.temp))
-                            .font(.footnote)
-                    }.frame(width: 20)
+            ZStack {
+                AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(humanInfo.icon)@2x.png"))
+                    .frame(width: 20, height: 20)
+                    .opacity(0.2)
+                VStack(alignment: .leading) {
+                    Text("\(humanDay)")
+                        .multilineTextAlignment(.leading)
+                        .fontWeight(.semibold)
+                    Text("\(dayWeather.day) \(humanMonth)")
+                        .fontWeight(.medium)
                 }
             }
+            .frame(maxWidth: 120,maxHeight: 80)
+            Spacer()
+                .frame(maxWidth: 30)
+            VStack(alignment: .leading) {
+                Text(humanInfo.description)
+                    .font(.callout)
+                    .fontWeight(.medium)
+                Spacer()
+                Text("Temperatures ºC")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                HStack(alignment: .top) {
+                    ForEach(keys.indices) {index in
+                        VStack {
+                            Text("\(keys[index])h")
+                                .font(.caption2)
+                            Text( String(format: "%.0f",dict[keys[index]]!.main.temp) )
+                                .font(.footnote)
+                                .fontWeight(.medium)
+                           
+                        }.frame(width: 20)
+                    }
+                }
+            }
+            .padding(.vertical)
         }
-        .frame(height: 60)
+        .frame(height: 100)
     }
 }
 
@@ -42,7 +68,7 @@ struct WeatherRowView_Previews: PreviewProvider {
         let weatherDataM : [WeatherDataModel] = weatherM.list
         let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
         
-        WeatherRowView(dayWeather: daysWeather.first!)
+        WeatherRowView(dayWeather: daysWeather[1])
             .previewLayout(.sizeThatFits)
     }
 }

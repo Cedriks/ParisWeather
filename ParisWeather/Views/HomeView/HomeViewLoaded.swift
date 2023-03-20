@@ -20,11 +20,29 @@ struct HomeViewLoaded: View {
                 Text(city.name)
                     .font(.largeTitle)
                 Text(Date().getHumanReadableDayString())
-                AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png"))
+                    .fontWeight(.medium)
+                AsyncImage(
+                    url:  URL(string: "https://openweathermap.org/img/wn/\(now.weather.first!.icon)@2x.png"),
+                    content:{ image in
+                        image.resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 100, maxHeight: 100)
+                            .padding(.top, -20)
+                    },
+                    placeholder: {
+                     ProgressView()
+                            .frame(maxWidth: 100, maxHeight: 100)
+                            .padding(.top, 20)
+                    }
+                )
+                Text(now.weather.first!.description)
+                    .font(.callout)
+                    .padding(.top, -20)
+                Text( String(format: "%.0f",now.main.temp) + " ºC")
             }
             List(fiveDayWeather, id: \.self.day) { dayWeather in
                 NavigationLink(
-                    destination: DetailView(viewModel: DetailView.ViewModel(weather: dayWeather, city: weather.city))
+                    destination: DetailView(viewModel: DetailViewModel(weather: dayWeather, city: weather.city))
                 ) {
                     WeatherRowView(dayWeather: dayWeather)
                 }.accessibilityIdentifier("leagueNavigationLink")
@@ -35,11 +53,12 @@ struct HomeViewLoaded: View {
     }
 }
 
-//struct HomeViewLoaded_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let weather: WeatherModel = HomeView.ViewModel(cityName: "Paris").weather!
-//        let dayWeather: [DayWeather] = weather.makeIOrderedWeatherDataByDay(fiveDaysData: weather.list)
-//        HomeViewLoaded(weather: weather, fiveDayWeather: dayWeather )
-//    }
-//}
+struct HomeViewLoaded_Previews: PreviewProvider {
+    static var previews: some View {
+        let weatherM: WeatherModel = WeatherModel.makePreviewData()
+        let weatherDataM : [WeatherDataModel] = weatherM.list
+        let daysWeather: [DayWeather] = weatherM.makeIOrderedWeatherDataByDay(fiveDaysData: weatherDataM)
+        HomeViewLoaded(weather: weatherM, fiveDayWeather: daysWeather )
+    }
+}
 
